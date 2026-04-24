@@ -1,4 +1,4 @@
-import { calculateSewun, calculateWolun, getTenGods, getTwelveStagesMock, getShenshaMock } from '../utils/sajuLogic';
+import { calculateSewun, calculateWolun, getTenGods, getTwelveStages, getShenshaMock } from '../utils/sajuLogic';
 
 const getElementClass = (char) => {
   const wood = ['甲', '乙', '寅', '卯'];
@@ -78,7 +78,7 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
                 <td key={i} 
                     onClick={() => onSelectSewun(sw.year)}
                     style={{ paddingTop: '8px', cursor: 'pointer', backgroundColor: sw.year === selectedSewunYear ? '#ecfdf5' : 'transparent' }}>
-                  {getTenGods(dayStem, sw.branch)}<br/>{getTwelveStagesMock()}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
+                  {getTenGods(dayStem, sw.branch)}<br/>{getTwelveStages(dayStem, sw.branch)}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
                 </td>
               ))}
             </tr>
@@ -115,7 +115,7 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
             <tr style={{ fontSize: '0.85rem', color: '#4b5563', lineHeight: '1.4' }}>
               {wolunList.map((ww, i) => (
                 <td key={i} style={{ paddingTop: '8px' }}>
-                  {getTenGods(dayStem, ww.branch)}<br/>{getTwelveStagesMock()}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
+                  {getTenGods(dayStem, ww.branch)}<br/>{getTwelveStages(dayStem, ww.branch)}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
                 </td>
               ))}
             </tr>

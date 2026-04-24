@@ -215,11 +215,8 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
               <div key={idx} style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #fde68a' }}>
                 <strong style={{ color: '#a16207', fontSize: '0.95rem' }}>{ml.month}월 ({ml.pillar} {ml.god}운)</strong>
                 <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  <p style={{ color: '#475569', lineHeight: '1.5', fontSize: '0.9rem', margin: 0 }}>
-                    <span style={{ color: '#2563eb', fontWeight: 'bold' }}>📜</span> {ml.japyung}
-                  </p>
-                  <p style={{ color: '#475569', lineHeight: '1.5', fontSize: '0.9rem', margin: 0 }}>
-                    <span style={{ color: '#0891b2', fontWeight: 'bold' }}>🌊</span> {ml.yeonhae}
+                  <p style={{ color: '#475569', lineHeight: '1.6', fontSize: '0.95rem', margin: 0, wordBreak: 'keep-all' }}>
+                    <span style={{ color: '#d97706', fontWeight: 'bold', marginRight: '6px' }}>✨</span> {ml.desc}
                   </p>
                 </div>
               </div>

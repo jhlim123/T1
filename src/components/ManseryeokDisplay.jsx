@@ -1,4 +1,4 @@
-import { getTenGods, calculateDaewun, getTwelveStagesMock, getShenshaMock, calculateInternationalAge } from '../utils/sajuLogic';
+import { getTenGods, calculateDaewun, getTwelveStages, getShenshaMock, calculateInternationalAge } from '../utils/sajuLogic';
 
 const getElementClass = (char) => {
   const wood = ['甲', '乙', '寅', '卯'];
@@ -157,7 +157,7 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
                 <td key={idx} 
                     onClick={() => onSelectDaewun(dw.age)}
                     style={{ paddingTop: '8px', cursor: 'pointer', backgroundColor: dw.age === selectedDaewunAge ? '#ebf5ff' : 'transparent' }}>
-                  {getTenGods(dayStem, dw.branch)}<br/>{getTwelveStagesMock()}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
+                  {getTenGods(dayStem, dw.branch)}<br/>{getTwelveStages(dayStem, dw.branch)}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
                 </td>
               ))}
             </tr>
