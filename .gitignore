@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+saju-app/node_modules/
+
+# Production
+dist/
+saju-app/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

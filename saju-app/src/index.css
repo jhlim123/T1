@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+:root {
+  --wood-bg: #4ade80;
+  --wood-text: #000;
+  
+  --fire-bg: #ef4444;
+  --fire-text: #fff;
+  
+  --earth-bg: #facc15;
+  --earth-text: #000;
+  
+  --metal-bg: #ffffff;
+  --metal-text: #000;
+  
+  --water-bg: #374151;
+  --water-text: #fff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 600px;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding-bottom: 20px;
+  margin: 0 auto;
+}
+
+/* Saju Box Styles */
+.saju-box {
+  border: 2px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  height: 60px;
+  width: 60px;
+  margin: 4px auto;
+  border-radius: 4px;
+}
+
+.wood { background-color: var(--wood-bg); color: var(--wood-text); }
+.fire { background-color: var(--fire-bg); color: var(--fire-text); }
+.earth { background-color: var(--earth-bg); color: var(--earth-text); }
+.metal { background-color: var(--metal-bg); color: var(--metal-text); }
+.water { background-color: var(--water-bg); color: var(--water-text); }
+
+/* Table styles for Manseryeok */
+.saju-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.saju-table th {
+  padding: 8px;
+  font-weight: normal;
+}
+
+.saju-table td {
+  padding: 2px;
+}
