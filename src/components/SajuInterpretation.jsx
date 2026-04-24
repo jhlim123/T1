@@ -8,8 +8,8 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
   if (!interpretation) return null;
 
   return (
-    <div style={{ padding: '20px', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0', paddingBottom: '60px' }}>
-      <h3 style={{ 
+    <div className="interpretation-container" style={{ padding: '20px', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0', paddingBottom: '60px' }}>
+      <h3 className="section-title" style={{ 
         fontSize: '1.3rem', 
         fontWeight: 'bold', 
         borderLeft: '5px solid #3b82f6', 
@@ -21,7 +21,7 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
       </h3>
       
       {/* 자평진전 해설 */}
-      <div style={{ 
+      <div className="interpretation-card" style={{ 
         marginBottom: '20px', 
         padding: '20px', 
         backgroundColor: 'white', 
@@ -39,13 +39,13 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         }}>
           <span style={{ marginRight: '8px' }}>📜</span> 자평진전(子平眞詮) 기준 격국론
         </h4>
-        <p style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
+        <p className="interpretation-text" style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
           <strong>[{interpretation.gyeok}격]</strong>: {interpretation.japyung}
         </p>
       </div>
 
       {/* 연해자평 해설 */}
-      <div style={{ 
+      <div className="interpretation-card" style={{ 
         marginBottom: '20px', 
         padding: '20px', 
         backgroundColor: 'white', 
@@ -63,13 +63,13 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         }}>
           <span style={{ marginRight: '8px' }}>🌊</span> 연해자평(淵海子平) 기준 성정 및 운세
         </h4>
-        <p style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
+        <p className="interpretation-text" style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
           {interpretation.yeonhae}
         </p>
       </div>
 
-      {/* 운세 흐름 분석 (이동됨) */}
-      <div style={{ 
+      {/* 운세 흐름 분석 */}
+      <div className="luck-flow-card" style={{ 
         marginBottom: '25px', 
         padding: '20px', 
         backgroundColor: '#eff6ff', 
@@ -82,20 +82,20 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
             <strong style={{ color: '#1e40af' }}>[대운] {luck.daewun.age}세 대운 ({luck.daewun.pillar} {luck.daewun.god}운)</strong>
-            <p style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.daewun.desc}</p>
+            <p className="luck-desc" style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.daewun.desc}</p>
           </div>
           <div>
             <strong style={{ color: '#1e40af' }}>[세운] {luck.sewun.year}년 세운 ({luck.sewun.pillar} {luck.sewun.god}운)</strong>
-            <p style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.sewun.desc}</p>
+            <p className="luck-desc" style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.sewun.desc}</p>
           </div>
         </div>
 
         {/* 월별 상세 해설 */}
         <div style={{ marginTop: '20px', borderTop: '1px solid #bfdbfe', paddingTop: '15px' }}>
           <h5 style={{ color: '#1e40af', marginBottom: '10px', fontWeight: 'bold' }}>📅 월별 상세 해설</h5>
-          <div style={{ 
+          <div className="monthly-grid" style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
             gap: '12px',
             maxHeight: '400px',
             overflowY: 'auto',
@@ -119,6 +119,7 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
 
       <div style={{ marginTop: '40px', display: 'flex', justifyContent: 'center' }}>
         <button 
+          className="reset-button"
           onClick={onReset}
           style={{ 
             padding: '15px 40px', 
@@ -131,14 +132,6 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
             cursor: 'pointer',
             boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.4)',
             transition: 'transform 0.2s, box-shadow 0.2s',
-          }}
-          onMouseOver={(e) => {
-            e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 12px 20px -5px rgba(59, 130, 246, 0.5)';
-          }}
-          onMouseOut={(e) => {
-            e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(59, 130, 246, 0.4)';
           }}
         >
           새로운 사주입력

@@ -123,3 +123,38 @@ body {
   background: #cbd5e1;
   border-radius: 10px;
 }
+
+/* Interpretation Section Responsiveness */
+@media (max-width: 640px) {
+  .interpretation-container {
+    padding: 15px !important;
+  }
+  
+  .interpretation-card, .luck-flow-card {
+    padding: 15px !important;
+  }
+  
+  .section-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .interpretation-text, .luck-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+  
+  .monthly-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  .reset-button {
+    width: 100%;
+    padding: 15px 20px !important;
+    font-size: 1rem !important;
+    border-radius: 12px !important;
+  }
+  
+  .daewun-header {
+    font-size: 0.95rem !important;
+  }
+}

@@ -110,7 +110,7 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
       </div>
 
       {/* Daewun Header */}
-      <div style={{ textAlign: 'center', margin: '15px 0 10px', fontSize: '1.1rem', fontWeight: 'bold', lineHeight: '1.5' }}>
+      <div className="daewun-header" style={{ textAlign: 'center', margin: '15px 0 10px', fontSize: '1.1rem', fontWeight: 'bold', lineHeight: '1.5' }}>
         만나이 (대운수 : 9 , {isForward ? '순행' : '역행'}) 생후9년2개월11일<br/>
         첫대운: {birthYear + 9}년 04월 14일경
       </div>
