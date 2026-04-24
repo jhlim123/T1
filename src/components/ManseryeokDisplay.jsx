@@ -52,26 +52,26 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
   return (
     <div>
       {/* Header Profile Area */}
-      <div style={{ backgroundColor: '#3b82f6', padding: '15px 20px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ width: '56px', height: '56px', backgroundColor: '#e5e7eb', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', border: '2px solid white' }}>
+      <div className="profile-area" style={{ backgroundColor: '#3b82f6', padding: '15px 20px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1 1 auto' }}>
+          <div style={{ width: '48px', height: '48px', backgroundColor: '#e5e7eb', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', border: '2px solid white', flexShrink: 0 }}>
             <div style={{ width: '100%', height: '100%', backgroundColor: '#fcd34d', position: 'relative' }}>
               <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40%', backgroundColor: '#fbbf24' }}></div>
             </div>
           </div>
           <div>
-            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{userInfo.name || '이름없음'} (만 {age}세)</div>
-            <div style={{ fontSize: '0.9rem', opacity: 0.9 }}>
+            <div className="profile-name" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{userInfo.name || '이름없음'} (만 {age}세)</div>
+            <div className="profile-date" style={{ fontSize: '0.85rem', opacity: 0.9 }}>
               ({userInfo.calendarType === 'solar' ? '양력' : '음력'}) {formattedDate} {formattedTime}
             </div>
           </div>
         </div>
-        <div style={{ width: '32px', height: '32px', border: '2px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1.2rem', cursor: 'pointer' }}>i</div>
+        <div style={{ width: '28px', height: '28px', border: '1px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', flexShrink: 0 }}>i</div>
       </div>
 
       {/* Main Saju Grid (Four Pillars) */}
-      <div style={{ padding: '0' }}>
-        <table className="saju-table">
+      <div className="horizontal-scroll" style={{ width: '100%', padding: '0' }}>
+        <table className="saju-table" style={{ minWidth: '350px' }}>
           <thead>
             <tr style={{ backgroundColor: '#d1d5db', borderBottom: '2px solid white' }}>
               <th style={{ borderRight: '2px solid white' }}>시 주</th>

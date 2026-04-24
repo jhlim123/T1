@@ -30,6 +30,7 @@ body {
   display: flex;
   justify-content: center;
   padding: 20px;
+  width: 100%;
 }
 
 @media (max-width: 640px) {
@@ -44,7 +45,6 @@ body {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   padding-bottom: 20px;
   margin: 0 auto;
   min-height: 100vh;
@@ -71,11 +71,11 @@ body {
   border-radius: 4px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 320px) {
   .saju-box {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
   }
 }
 
@@ -90,7 +90,6 @@ body {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
-  table-layout: fixed;
 }
 
 .saju-table th {
@@ -127,11 +126,16 @@ body {
 /* Interpretation Section Responsiveness */
 @media (max-width: 640px) {
   .interpretation-container {
-    padding: 15px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
   }
   
   .interpretation-card, .luck-flow-card {
-    padding: 15px !important;
+    padding: 12px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
   }
   
   .section-title {
@@ -156,5 +160,13 @@ body {
   
   .daewun-header {
     font-size: 0.95rem !important;
+  }
+
+  .profile-name {
+    font-size: 1rem !important;
+  }
+
+  .profile-date {
+    font-size: 0.75rem !important;
   }
 }

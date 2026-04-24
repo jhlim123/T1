@@ -21,19 +21,19 @@ export default function SajuInputForm({ onSubmit }) {
 
       <div className="toggle-group" style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         {/* Gender Toggle */}
-        <div style={{ display: 'flex', background: '#e0e7ff', borderRadius: '20px', overflow: 'hidden', flex: '1 1 auto', minWidth: '120px' }}>
+        <div style={{ display: 'flex', background: '#e0e7ff', borderRadius: '20px', overflow: 'hidden', flex: '1 1 45%', minWidth: '120px' }}>
           <button onClick={() => setGender('male')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'male' ? 'white' : 'transparent', borderRadius: '20px', border: gender==='male'?'1px solid #6366f1':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>남자</button>
           <button onClick={() => setGender('female')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'female' ? '#6366f1' : 'transparent', borderRadius: '20px', border: gender==='female'?'1px solid #6366f1':'none', color: gender === 'female' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>여자</button>
         </div>
 
         {/* Calendar Toggle */}
-        <div style={{ display: 'flex', background: '#ccfbf1', borderRadius: '20px', overflow: 'hidden', flex: '1 1 auto', minWidth: '120px' }}>
+        <div style={{ display: 'flex', background: '#ccfbf1', borderRadius: '20px', overflow: 'hidden', flex: '1 1 45%', minWidth: '120px' }}>
           <button onClick={() => setCalendarType('solar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'solar' ? 'white' : 'transparent', borderRadius: '20px', border: calendarType==='solar'?'1px solid #14b8a6':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>양력</button>
           <button onClick={() => setCalendarType('lunar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'lunar' ? '#14b8a6' : 'transparent', borderRadius: '20px', border: calendarType==='lunar'?'1px solid #14b8a6':'none', color: calendarType === 'lunar' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>음력</button>
         </div>
 
         {/* Leap Month Toggle */}
-        <div style={{ display: 'flex', background: '#ffedd5', borderRadius: '20px', overflow: 'hidden', flex: '1 1 auto', minWidth: '120px' }}>
+        <div style={{ display: 'flex', background: '#ffedd5', borderRadius: '20px', overflow: 'hidden', flex: '1 1 45%', minWidth: '120px' }}>
           <button onClick={() => setLeapMonth('normal')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'normal' ? 'white' : 'transparent', borderRadius: '20px', border: leapMonth==='normal'?'1px solid #f59e0b':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>평달</button>
           <button onClick={() => setLeapMonth('leap')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'leap' ? '#f59e0b' : 'transparent', borderRadius: '20px', border: leapMonth==='leap'?'1px solid #f59e0b':'none', color: leapMonth === 'leap' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>윤달</button>
         </div>
