@@ -15,7 +15,7 @@ const getElementClass = (char) => {
   return '';
 };
 
-export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAge, onSelectDaewun }) {
+export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAge, onSelectDaewun, onShowCreatorInfo }) {
   if (!sajuData || !userInfo) return null;
 
   const yearStem = sajuData.yearPillarHanja?.[0] || '';
@@ -66,7 +66,15 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
             </div>
           </div>
         </div>
-        <div style={{ width: '28px', height: '28px', border: '1px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', flexShrink: 0 }}>i</div>
+        <div 
+          onClick={onShowCreatorInfo}
+          title="만든 사람 정보"
+          style={{ width: '28px', height: '28px', border: '1px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', flexShrink: 0, transition: 'background-color 0.2s', backgroundColor: 'transparent' }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+        >
+          i
+        </div>
       </div>
 
       {/* Main Saju Grid (Four Pillars) */}

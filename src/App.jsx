@@ -6,6 +6,8 @@ import SajuInterpretation from './components/SajuInterpretation';
 import { calculateSaju, lunarToSolar } from '@fullstackfamily/manseryeok';
 import { calculateInternationalAge } from './utils/sajuLogic';
 import SajuHistory from './components/SajuHistory';
+import CreatorInfoModal from './components/CreatorInfoModal';
+import { Info } from 'lucide-react';
 import './index.css';
 
 function App() {
@@ -14,6 +16,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [selectedDaewunAge, setSelectedDaewunAge] = useState(null);
   const [selectedSewunYear, setSelectedSewunYear] = useState(null);
+  const [showCreatorInfo, setShowCreatorInfo] = useState(false);
 
   const handleLookup = (formData) => {
     if (!formData.birthDate || formData.birthDate.length !== 8) {
@@ -115,7 +118,27 @@ function App() {
     <div className="app-container">
       {view === 'input' && (
         <>
-          <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <button 
+              onClick={() => setShowCreatorInfo(true)}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                cursor: 'pointer', 
+                color: '#94a3b8', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                padding: '8px',
+                borderRadius: '50%',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              title="만든 사람 정보"
+            >
+              <Info size={24} />
+            </button>
             <button 
               onClick={() => setView('history')}
               style={{ 
@@ -153,6 +176,7 @@ function App() {
             userInfo={userInfo} 
             selectedDaewunAge={selectedDaewunAge}
             onSelectDaewun={handleSelectDaewun}
+            onShowCreatorInfo={() => setShowCreatorInfo(true)}
           />
           <hr style={{ border: 'none', borderTop: '2px dashed #e5e7eb', margin: '20px' }} />
           <DaewunSewunDisplay 
@@ -170,6 +194,8 @@ function App() {
           />
         </>
       )}
+      
+      {showCreatorInfo && <CreatorInfoModal onClose={() => setShowCreatorInfo(false)} />}
     </div>
   );
 }
