@@ -32,6 +32,12 @@ body {
   padding: 20px;
 }
 
+@media (max-width: 640px) {
+  body {
+    padding: 0;
+  }
+}
+
 .app-container {
   max-width: 600px;
   width: 100%;
@@ -41,6 +47,14 @@ body {
   overflow: hidden;
   padding-bottom: 20px;
   margin: 0 auto;
+  min-height: 100vh;
+}
+
+@media (max-width: 640px) {
+  .app-container {
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 
 /* Saju Box Styles */
@@ -57,6 +71,14 @@ body {
   border-radius: 4px;
 }
 
+@media (max-width: 480px) {
+  .saju-box {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+  }
+}
+
 .wood { background-color: var(--wood-bg); color: var(--wood-text); }
 .fire { background-color: var(--fire-bg); color: var(--fire-text); }
 .earth { background-color: var(--earth-bg); color: var(--earth-text); }
@@ -68,13 +90,36 @@ body {
   width: 100%;
   border-collapse: collapse;
   text-align: center;
+  table-layout: fixed;
 }
 
 .saju-table th {
-  padding: 8px;
+  padding: 8px 4px;
   font-weight: normal;
+  font-size: 0.95rem;
 }
 
 .saju-table td {
-  padding: 2px;
+  padding: 4px 2px;
+}
+
+/* Custom Scrollbar for horizontal scrolling tables */
+.horizontal-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  padding-bottom: 5px;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
 }

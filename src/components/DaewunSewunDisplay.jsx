@@ -37,8 +37,8 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
       <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', margin: '20px 0 15px' }}>
         세운 ({selectedDaewunAge ? `${selectedDaewunAge}세 대운` : '현재'})
       </div>
-      <div style={{ overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'thin' }}>
-        <table className="saju-table" style={{ minWidth: '750px' }}>
+      <div className="horizontal-scroll" style={{ paddingBottom: '10px' }}>
+        <table className="saju-table" style={{ minWidth: '650px' }}>
           <thead>
             <tr style={{ fontSize: '0.9rem' }}>
               {sewunList.map((sw, i) => (
@@ -92,8 +92,8 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
       <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', margin: '20px 0 15px' }}>
         {selectedSewunYear}년 월운
       </div>
-      <div style={{ overflowX: 'auto', paddingBottom: '10px', scrollbarWidth: 'thin' }}>
-        <table className="saju-table" style={{ minWidth: '900px' }}>
+      <div className="horizontal-scroll" style={{ paddingBottom: '10px' }}>
+        <table className="saju-table" style={{ minWidth: '850px' }}>
           <thead>
             <tr style={{ fontSize: '0.9rem' }}>
               {wolunList.map((ww, i) => (

@@ -116,8 +116,8 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
       </div>
 
       {/* Daewun Grid */}
-      <div style={{ overflowX: 'auto', padding: '0 5px', scrollbarWidth: 'thin' }}>
-        <table className="saju-table" style={{ minWidth: '700px' }}>
+      <div className="horizontal-scroll" style={{ padding: '0 5px' }}>
+        <table className="saju-table" style={{ minWidth: '650px' }}>
           <thead>
             <tr style={{ fontSize: '0.9rem' }}>
               {daewunList.map((dw, idx) => (
