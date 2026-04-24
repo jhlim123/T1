@@ -128,7 +128,7 @@ export const translations = {
     dayPillar: "Day",
     monthPillar: "Month",
     yearPillar: "Year",
-    dayMaster: "Day Master (Me)",
+    dayMaster: "일간(Me)",
     unknown: "Unknown",
     age: "Age",
     ageSuffix: "",
