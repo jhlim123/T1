@@ -5,9 +5,11 @@ import DaewunSewunDisplay from './components/DaewunSewunDisplay';
 import SajuInterpretation from './components/SajuInterpretation';
 import { calculateSaju, lunarToSolar } from '@fullstackfamily/manseryeok';
 import { calculateInternationalAge } from './utils/sajuLogic';
+import SajuHistory from './components/SajuHistory';
 import './index.css';
 
 function App() {
+  const [view, setView] = useState('input'); // 'input', 'result', 'history'
   const [sajuData, setSajuData] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [selectedDaewunAge, setSelectedDaewunAge] = useState(null);
@@ -42,7 +44,6 @@ function App() {
       hour = parseInt(formData.birthTime.substring(0, 2));
       minute = parseInt(formData.birthTime.substring(2, 4));
     } else if (!formData.knowTime && formData.birthBranch) {
-      // 12지시에 따른 시간 설정 (중간값 기준)
       const branchTimeMap = {
         '자': { h: 0, m: 0 },
         '축': { h: 2, m: 0 },
@@ -71,13 +72,19 @@ function App() {
       const currentYear = new Date().getFullYear();
       const currentAge = calculateInternationalAge(formData.birthDate);
       
-      // 초기 선택 대운을 현재 나이에 맞는 대운으로 설정 (대운수 9 기준 예시)
       const initialDaewun = Math.floor((currentAge - 9) / 10) * 10 + 9;
       const finalDaewun = initialDaewun < 9 ? 9 : initialDaewun;
       setSelectedDaewunAge(finalDaewun);
-      setSelectedSewunYear(currentYear); // 처음엔 현재 연도 선택
+      setSelectedSewunYear(currentYear);
 
-      setUserInfo({ ...formData, solarYear: year, solarMonth: month, solarDay: day });
+      const newUserInfo = { ...formData, solarYear: year, solarMonth: month, solarDay: day };
+      setUserInfo(newUserInfo);
+      setView('result');
+
+      const saved = JSON.parse(localStorage.getItem('saju_history') || '[]');
+      const newUser = { ...newUserInfo, id: Date.now() };
+      const updated = [newUser, ...saved.filter(item => item.birthDate !== newUser.birthDate || item.name !== newUser.name)].slice(0, 50);
+      localStorage.setItem('saju_history', JSON.stringify(updated));
     } catch (e) {
       alert("사주 계산 중 오류가 발생했습니다: " + e.message);
     }
@@ -85,7 +92,6 @@ function App() {
 
   const handleSelectDaewun = (age) => {
     setSelectedDaewunAge(age);
-    // 대운 선택 시 해당 대운의 시작 연도를 세운으로 자동 선택
     if (userInfo) {
       const birthYear = parseInt(userInfo.birthDate.substring(0, 4));
       setSelectedSewunYear(birthYear + age);
@@ -97,16 +103,51 @@ function App() {
     setUserInfo(null);
     setSelectedDaewunAge(null);
     setSelectedSewunYear(null);
+    setView('input');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectFromHistory = (item) => {
+    handleLookup(item);
   };
 
   return (
     <div className="app-container">
-      <SajuInputForm onSubmit={handleLookup} />
-      
-      {sajuData && (
+      {view === 'input' && (
         <>
-          <hr style={{ border: 'none', borderTop: '8px solid #f3f4f6', margin: '0' }} />
+          <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'flex-end' }}>
+            <button 
+              onClick={() => setView('history')}
+              style={{ 
+                padding: '10px 18px', 
+                background: '#f3f4f6', 
+                color: '#4b5563', 
+                border: '1px solid #d1d5db', 
+                borderRadius: '50px', 
+                cursor: 'pointer', 
+                fontSize: '0.9rem', 
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+              }}>
+              📜 저장된 사주 보기
+            </button>
+          </div>
+          <SajuInputForm onSubmit={handleLookup} />
+        </>
+      )}
+
+      {view === 'history' && (
+        <SajuHistory 
+          onSelect={handleSelectFromHistory} 
+          onBack={() => setView('input')} 
+        />
+      )}
+      
+      {view === 'result' && sajuData && (
+        <>
           <ManseryeokDisplay 
             sajuData={sajuData} 
             userInfo={userInfo} 
