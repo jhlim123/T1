@@ -41,6 +41,27 @@ function App() {
     if (formData.knowTime && formData.birthTime && formData.birthTime.length >= 4) {
       hour = parseInt(formData.birthTime.substring(0, 2));
       minute = parseInt(formData.birthTime.substring(2, 4));
+    } else if (!formData.knowTime && formData.birthBranch) {
+      // 12지시에 따른 시간 설정 (중간값 기준)
+      const branchTimeMap = {
+        '자': { h: 0, m: 0 },
+        '축': { h: 2, m: 0 },
+        '인': { h: 4, m: 0 },
+        '묘': { h: 6, m: 0 },
+        '진': { h: 8, m: 0 },
+        '사': { h: 10, m: 0 },
+        '오': { h: 12, m: 0 },
+        '미': { h: 14, m: 0 },
+        '신': { h: 16, m: 0 },
+        '유': { h: 18, m: 0 },
+        '술': { h: 20, m: 0 },
+        '해': { h: 22, m: 0 }
+      };
+      const time = branchTimeMap[formData.birthBranch];
+      if (time) {
+        hour = time.h;
+        minute = time.m;
+      }
     }
 
     try {

@@ -8,9 +8,25 @@ export default function SajuInputForm({ onSubmit }) {
   const [knowTime, setKnowTime] = useState(true);
   const [birthDate, setBirthDate] = useState('');
   const [birthTime, setBirthTime] = useState('');
+  const [birthBranch, setBirthBranch] = useState('');
+
+  const branches = [
+    { name: '자시 (23:30~01:30)', value: '자' },
+    { name: '축시 (01:30~03:30)', value: '축' },
+    { name: '인시 (03:30~05:30)', value: '인' },
+    { name: '묘시 (05:30~07:30)', value: '묘' },
+    { name: '진시 (07:30~09:30)', value: '진' },
+    { name: '사시 (09:30~11:30)', value: '사' },
+    { name: '오시 (11:30~13:30)', value: '오' },
+    { name: '미시 (13:30~15:30)', value: '미' },
+    { name: '신시 (15:30~17:30)', value: '신' },
+    { name: '유시 (17:30~19:30)', value: '유' },
+    { name: '술시 (19:30~21:30)', value: '술' },
+    { name: '해시 (21:30~23:30)', value: '해' },
+  ];
 
   const handleSubmit = () => {
-    onSubmit({ name, gender, calendarType, leapMonth, knowTime, birthDate, birthTime });
+    onSubmit({ name, gender, calendarType, leapMonth, knowTime, birthDate, birthTime, birthBranch });
   };
 
   return (
@@ -57,11 +73,20 @@ export default function SajuInputForm({ onSubmit }) {
         <div className="form-row" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
           <label style={{ minWidth: '80px', fontSize: '1rem', fontWeight: 'bold' }}>출생시간 :</label>
           <div style={{ display: 'flex', flex: '1 1 200px', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <input type="text" placeholder="1459" disabled={!knowTime} value={birthTime} onChange={e => setBirthTime(e.target.value)} style={{ flex: '1 1 100px', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '1rem', background: knowTime ? 'white' : '#f3f4f6', outline: 'none' }} />
+            {knowTime ? (
+              <input type="text" placeholder="1459" value={birthTime} onChange={e => setBirthTime(e.target.value)} style={{ flex: '1 1 100px', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '1rem', background: 'white', outline: 'none' }} />
+            ) : (
+              <select value={birthBranch} onChange={e => setBirthBranch(e.target.value)} style={{ flex: '1 1 100px', padding: '12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '1rem', background: 'white', outline: 'none' }}>
+                <option value="">시간모름 (선택)</option>
+                {branches.map(b => (
+                  <option key={b.value} value={b.value}>{b.name}</option>
+                ))}
+              </select>
+            )}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '80px' }}>
-              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>모름</span>
-              <div onClick={() => { setKnowTime(!knowTime); setBirthTime(''); }} style={{ width: '44px', height: '24px', background: '#d1d5db', borderRadius: '12px', position: 'relative', cursor: 'pointer', transition: '0.2s' }}>
-                <div style={{ position: 'absolute', top: '2px', left: knowTime ? '2px' : '22px', width: '20px', height: '20px', background: 'white', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transition: '0.2s' }}></div>
+              <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{knowTime ? '직접입력' : '12지시'}</span>
+              <div onClick={() => { setKnowTime(!knowTime); }} style={{ width: '44px', height: '24px', background: '#3b82f6', borderRadius: '12px', position: 'relative', cursor: 'pointer', transition: '0.2s' }}>
+                <div style={{ position: 'absolute', top: '2px', left: knowTime ? '22px' : '2px', width: '20px', height: '20px', background: 'white', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transition: '0.2s' }}></div>
               </div>
             </div>
           </div>
