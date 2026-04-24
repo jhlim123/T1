@@ -141,9 +141,30 @@ export const calculateWolun = (yearStemChar) => {
   return woluns;
 };
 
-export const getTwelveStagesMock = () => {
-  const arr = ['건록', '관대', '목욕', '장생', '양', '태', '절', '묘', '사', '병', '쇠', '제왕'];
-  return arr[0];
+export const getTwelveStages = (dayStem, targetBranch) => {
+  const stages = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병', '사', '묘', '절', '태', '양'];
+  const baseMap = {
+    '甲': '亥', '乙': '午', '丙': '寅', '戊': '寅', '丁': '酉', '己': '酉',
+    '庚': '巳', '辛': '子', '壬': '申', '癸': '卯'
+  };
+  const branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+  
+  const isYang = ['甲', '丙', '戊', '庚', '壬'].includes(dayStem);
+  const startBranch = baseMap[dayStem];
+  
+  if (!startBranch || !targetBranch) return '';
+  
+  const startIndex = branches.indexOf(startBranch);
+  const targetIndex = branches.indexOf(targetBranch);
+  
+  let diff = 0;
+  if (isYang) {
+    diff = (targetIndex - startIndex + 12) % 12;
+  } else {
+    diff = (startIndex - targetIndex + 12) % 12;
+  }
+  
+  return stages[diff];
 };
 
 export const getJapyungInterpretation = (gyeokName) => {
@@ -252,6 +273,9 @@ export const getCurrentLuckInterpretation = (sajuData, userInfo, targetYear) => 
   
   const daewunGod = getTenGods(dayStem, currentDaewun.stem);
   const sewunGod = getTenGods(dayStem, sewunStem);
+  
+  const daewunStage = getTwelveStages(dayStem, currentDaewun.branch);
+  const sewunStage = getTwelveStages(dayStem, sewunPillar[1]);
 
   const japyungLuck = {
     '비견': { daewun: '자평진전에서는 비견 대운을 \"본신의 기운이 왕성해져 자립의 기틀을 다지는 시기\"로 봅니다. 관성이 있으면 건록용관(建祿用官)의 이치로 사회적 입지가 굳건해지며, 재성을 만나면 자수성가의 큰 발판이 됩니다.', sewun: '비견 세운은 경쟁과 동업의 기운이 강합니다. 자평진전에서는 \"비겁이 겹치면 재성을 쟁탈하니 독자적 판단이 중요하다\"고 경고합니다. 파트너십보다 독립적 행보가 유리합니다.', wolun: '비견 절운은 자기 주관이 강해지는 달입니다. 독립적 추진이 길하며 투자나 동업은 신중을 기해야 합니다.' },
@@ -281,10 +305,12 @@ export const getCurrentLuckInterpretation = (sajuData, userInfo, targetYear) => 
 
   const monthlyLuck = allWoluns.map(w => {
     const god = getTenGods(dayStem, w.stem);
+    const stage = getTwelveStages(dayStem, w.branch);
     return {
       month: w.month,
       pillar: w.pillar,
       god: god,
+      stage: stage,
       japyung: japyungLuck[god]?.wolun || '이달의 운세 흐름입니다.',
       yeonhae: yeonhaeLuck[god]?.wolun || '이달의 성정 흐름입니다.'
     };
@@ -295,6 +321,7 @@ export const getCurrentLuckInterpretation = (sajuData, userInfo, targetYear) => 
       age: currentDaewun.age,
       pillar: currentDaewun.pillar,
       god: daewunGod,
+      stage: daewunStage,
       japyung: japyungLuck[daewunGod]?.daewun || '장기적인 환경의 변화가 예상됩니다.',
       yeonhae: yeonhaeLuck[daewunGod]?.daewun || '장기적인 성정의 변화가 있습니다.'
     },
@@ -302,6 +329,7 @@ export const getCurrentLuckInterpretation = (sajuData, userInfo, targetYear) => 
       year: targetYear,
       pillar: sewunPillar,
       god: sewunGod,
+      stage: sewunStage,
       japyung: japyungLuck[sewunGod]?.sewun || '올해의 주요 흐름을 나타냅니다.',
       yeonhae: yeonhaeLuck[sewunGod]?.sewun || '올해의 성정 흐름입니다.'
     },

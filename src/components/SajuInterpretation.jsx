@@ -1,8 +1,13 @@
 import { getInterpretation, getCurrentLuckInterpretation } from '../utils/sajuLogic';
 import { getPersonalityAnalysis } from '../utils/personalityLogic';
 import { getFullAnalysis } from '../utils/fullAnalysis';
+import { generateExpertPrompt } from '../utils/aiPromptGenerator';
+import { useState } from 'react';
 
 export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYear, onReset }) {
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   if (!sajuData || !userInfo) return null;
 
   let interpretation = null;
@@ -220,6 +225,48 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {/* 🤖 AI 명리학 전문가 심층 분석 프롬프트 생성기 */}
+      {luck && luck.daewun && (
+        <div style={{ marginBottom: '25px', padding: '20px', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', borderRadius: '12px', border: '1px solid #cbd5e1', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+            <h4 style={{ color: '#334155', margin: 0, fontWeight: 'bold', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>🤖</span> AI 명리학 심층 분석 프롬프트
+            </h4>
+            <button
+              onClick={() => setShowPrompt(!showPrompt)}
+              style={{ padding: '6px 12px', fontSize: '0.85rem', background: 'white', border: '1px solid #cbd5e1', borderRadius: '6px', cursor: 'pointer', color: '#475569', fontWeight: 'bold' }}
+            >
+              {showPrompt ? '숨기기' : '프롬프트 보기'}
+            </button>
+          </div>
+          <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '10px', lineHeight: '1.5' }}>
+            챗GPT나 클로드(Claude)에게 아래 프롬프트를 복사하여 질문하면, 선택한 대운·세운·월운을 바탕으로 한 명리학 전문가 수준의 상세한 심층 분석을 받을 수 있습니다.
+          </p>
+          
+          {showPrompt && (
+            <div style={{ marginTop: '15px' }}>
+              <div style={{ position: 'relative' }}>
+                <textarea
+                  readOnly
+                  value={generateExpertPrompt(sajuData, luck)}
+                  style={{ width: '100%', height: '250px', padding: '15px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#ffffff', color: '#334155', fontSize: '0.85rem', lineHeight: '1.6', resize: 'vertical', fontFamily: 'monospace' }}
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(generateExpertPrompt(sajuData, luck));
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  style={{ position: 'absolute', top: '10px', right: '10px', padding: '8px 16px', background: copied ? '#10b981' : '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', transition: 'background 0.2s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+                >
+                  {copied ? '✅ 복사완료' : '📋 전체 복사하기'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
