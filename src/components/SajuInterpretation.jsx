@@ -1,5 +1,6 @@
 import { getInterpretation, getCurrentLuckInterpretation } from '../utils/sajuLogic';
 import { getPersonalityAnalysis } from '../utils/personalityLogic';
+import { getFullAnalysis } from '../utils/fullAnalysis';
 
 export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYear, onReset }) {
   if (!sajuData || !userInfo) return null;
@@ -11,6 +12,8 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
   try { interpretation = getInterpretation(sajuData); } catch (e) { console.error('격국 해설 오류:', e); }
   try { luck = getCurrentLuckInterpretation(sajuData, userInfo, selectedSewunYear || new Date().getFullYear()); } catch (e) { console.error('운세 해설 오류:', e); }
   try { personality = getPersonalityAnalysis(sajuData); } catch (e) { console.error('성격 해설 오류:', e); }
+  let fullAnalysis = null;
+  try { fullAnalysis = getFullAnalysis(sajuData); } catch (e) { console.error('종합분석 오류:', e); }
 
   if (!interpretation && !luck && !personality) return null;
 
@@ -57,7 +60,87 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         </div>
       )}
 
-      {/* ② 자평진전 해설 */}
+      {/* ② 명리학 전문가 6대 분석 */}
+      {fullAnalysis && (
+        <div style={{ marginBottom: '20px' }}>
+          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', borderLeft: '5px solid #6366f1', paddingLeft: '12px', marginBottom: '14px', color: '#1e293b' }}>🔬 전문가 종합 분석</h4>
+
+          {/* 1. 일주 기질 */}
+          <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #e0e7ff' }}>
+            <div style={{ color: '#4338ca', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '6px' }}>① 일주({fullAnalysis.dayPillar}) — 본연의 기질과 중심 성격</div>
+            <p style={{ color: '#374151', lineHeight: '1.7', fontSize: '0.92rem', margin: 0, wordBreak: 'keep-all' }}>{fullAnalysis.dayPillarInfo}</p>
+          </div>
+
+          {/* 2. 십성 흐름 & 사회적 환경 */}
+          <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #d1fae5' }}>
+            <div style={{ color: '#065f46', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '8px' }}>② 십성 흐름 — 사회적 환경과 역량 발휘 방식</div>
+            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
+              {fullAnalysis.sortedGods.map(([god, cnt]) => (
+                <span key={god} style={{ padding: '3px 10px', borderRadius: '20px', fontSize: '0.8rem', background: cnt >= 2 ? '#6ee7b7' : '#f3f4f6', color: cnt >= 2 ? '#065f46' : '#6b7280', fontWeight: cnt >= 2 ? 'bold' : 'normal' }}>{god} ×{cnt}</span>
+              ))}
+            </div>
+            <p style={{ color: '#374151', lineHeight: '1.6', fontSize: '0.9rem', margin: 0, wordBreak: 'keep-all' }}>
+              주도적 십성은 <strong>{fullAnalysis.dominantGod}</strong>으로, 이 기운이 삶의 방향성과 환경을 이끕니다.<br/>
+              <strong>직업 적성:</strong> {fullAnalysis.lifeInfo.job}
+            </p>
+          </div>
+
+          {/* 3. 장단점 & 인생 흐름 */}
+          <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #fde68a' }}>
+            <div style={{ color: '#92400e', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '8px' }}>③ 특징적 장단점과 인생 흐름</div>
+            <p style={{ color: '#374151', lineHeight: '1.6', fontSize: '0.9rem', margin: 0, wordBreak: 'keep-all' }}>
+              <span style={{ color: '#15803d', fontWeight: 'bold' }}>▸ 장점:</span> {fullAnalysis.lifeInfo.money}<br/>
+              <span style={{ color: '#dc2626', fontWeight: 'bold' }}>▸ 주의:</span> {fullAnalysis.excess.length > 0 ? fullAnalysis.excess.map(e => fullAnalysis.excessWarning[e]).join(' ') : '전반적으로 균형 잡혔으나 세심한 관리가 필요합니다.'}
+            </p>
+          </div>
+
+          {/* 4. 오행 분포 & 보완책 */}
+          <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #fbcfe8' }}>
+            <div style={{ color: '#9d174d', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '10px' }}>④ 오행 분포 & 실생활 보완책</div>
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+              {Object.entries(fullAnalysis.elementDist).map(([el, cnt]) => (
+                <div key={el} style={{ flex: '1 1 44px', textAlign: 'center', padding: '8px 4px', borderRadius: '8px', background: cnt === 0 ? '#fee2e2' : cnt >= 3 ? '#fef3c7' : '#f0fdf4', border: `1px solid ${cnt === 0 ? '#fca5a5' : cnt >= 3 ? '#fde68a' : '#bbf7d0'}` }}>
+                  <div style={{ fontSize: '1rem', fontWeight: 'bold' }}>{el}</div>
+                  <div style={{ fontSize: '0.75rem', color: cnt === 0 ? '#dc2626' : cnt >= 3 ? '#d97706' : '#15803d' }}>{cnt}개{cnt === 0 ? ' ⚠️' : cnt >= 3 ? ' ⚡' : ''}</div>
+                </div>
+              ))}
+            </div>
+            {fullAnalysis.remedies.filter(r => r.color).map(r => (
+              <div key={r.el} style={{ padding: '10px', background: '#fdf4ff', borderRadius: '8px', fontSize: '0.85rem', marginBottom: '6px' }}>
+                <strong style={{ color: '#7e22ce' }}>보완 오행: {r.el}</strong> — {fullAnalysis.lackingAdvice[r.el]}<br/>
+                🎨 <strong>추천 색상:</strong> {r.color} &nbsp; 🍽 <strong>추천 식품:</strong> {r.food}<br/>
+                💡 <strong>추천 습관:</strong> {r.habits?.join(', ')}
+              </div>
+            ))}
+          </div>
+
+          {/* 5. 주요 영역 종합 */}
+          <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #bfdbfe' }}>
+            <div style={{ color: '#1e40af', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '10px' }}>⑤ 재물·연애·직업·건강 종합 해석</div>
+            {[
+              { label: '💰 재물운', value: fullAnalysis.lifeInfo.money },
+              { label: '💕 연애·결혼운', value: fullAnalysis.lifeInfo.love },
+              { label: '💼 직업 적성', value: fullAnalysis.lifeInfo.job },
+              { label: '🏥 건강운', value: fullAnalysis.lifeInfo.health }
+            ].map(item => (
+              <div key={item.label} style={{ display: 'flex', gap: '8px', marginBottom: '7px', alignItems: 'flex-start' }}>
+                <span style={{ minWidth: '88px', fontWeight: 'bold', color: '#1e40af', fontSize: '0.85rem', flexShrink: 0 }}>{item.label}</span>
+                <span style={{ color: '#374151', fontSize: '0.88rem', lineHeight: '1.5', wordBreak: 'keep-all' }}>{item.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* 6. 핵심 조언 */}
+          <div style={{ padding: '16px', background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%)', borderRadius: '12px', color: 'white' }}>
+            <div style={{ fontWeight: 'bold', fontSize: '0.95rem', marginBottom: '10px' }}>⑥ 삶의 태도와 핵심 조언</div>
+            <p style={{ lineHeight: '1.8', fontSize: '0.9rem', color: '#cbd5e1', margin: 0, wordBreak: 'keep-all' }}>
+              <strong style={{ color: '#7dd3fc' }}>{fullAnalysis.dayPillar}</strong> 일주는 {fullAnalysis.dayPillarInfo} {fullAnalysis.lacking.length > 0 && fullAnalysis.lackingAdvice[fullAnalysis.lacking[0]]} {fullAnalysis.excess.length > 0 && fullAnalysis.excessWarning[fullAnalysis.excess[0]]} 균형 잡힌 삶을 위해 자신의 강점을 살리되, 부족한 기운을 의식적으로 보완해 나가는 것이 이 사주의 핵심 과제입니다.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* ③ 자평진전 해설 */}
       {interpretation && (
         <>
           <div className="interpretation-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
