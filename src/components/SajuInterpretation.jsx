@@ -1,9 +1,11 @@
 import { getInterpretation, getCurrentLuckInterpretation } from '../utils/sajuLogic';
+import { getPersonalityAnalysis } from '../utils/personalityLogic';
 
 export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYear, onReset }) {
   if (!sajuData || !userInfo) return null;
   const interpretation = getInterpretation(sajuData);
   const luck = getCurrentLuckInterpretation(sajuData, userInfo, selectedSewunYear || new Date().getFullYear());
+  const personality = getPersonalityAnalysis(sajuData);
 
   if (!interpretation) return null;
 
@@ -19,7 +21,65 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
       }}>
         사주 심층 해설
       </h3>
-      
+
+      {/* ① 성격 풀이 - 일간 + 월지 + 조후 */}
+      {personality && (
+        <div style={{ marginBottom: '20px', padding: '20px', background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)', borderRadius: '16px', color: 'white', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '1.5rem' }}>🌟</span>
+            <h4 style={{ fontWeight: 'bold', fontSize: '1.15rem', margin: 0 }}>나의 성격 풀이</h4>
+            <span style={{ marginLeft: 'auto', background: 'rgba(255,255,255,0.15)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem' }}>
+              {personality.keyword}
+            </span>
+          </div>
+
+          {/* 일간 본성 */}
+          <div style={{ marginBottom: '14px', padding: '14px', background: 'rgba(255,255,255,0.08)', borderRadius: '10px', borderLeft: '3px solid #60a5fa' }}>
+            <div style={{ fontSize: '0.8rem', color: '#93c5fd', fontWeight: 'bold', marginBottom: '6px' }}>
+              ☯ 일간({personality.dayStem}) — 타고난 본성
+            </div>
+            <p style={{ margin: 0, lineHeight: '1.7', fontSize: '0.95rem', color: '#e2e8f0' }}>
+              {personality.core}
+            </p>
+          </div>
+
+          {/* 월지 사회적 성격 */}
+          <div style={{ marginBottom: '14px', padding: '14px', background: 'rgba(255,255,255,0.08)', borderRadius: '10px', borderLeft: '3px solid #34d399' }}>
+            <div style={{ fontSize: '0.8rem', color: '#6ee7b7', fontWeight: 'bold', marginBottom: '6px' }}>
+              🌿 월지({personality.monthBranch} · {personality.season}) — 사회적 성격
+            </div>
+            <p style={{ margin: 0, lineHeight: '1.7', fontSize: '0.95rem', color: '#e2e8f0' }}>
+              {personality.social}
+            </p>
+          </div>
+
+          {/* 조후 */}
+          <div style={{ marginBottom: '14px', padding: '14px', background: 'rgba(255,255,255,0.08)', borderRadius: '10px', borderLeft: '3px solid #f59e0b' }}>
+            <div style={{ fontSize: '0.8rem', color: '#fcd34d', fontWeight: 'bold', marginBottom: '6px' }}>
+              🌤 조후(調候) — 계절의 기운 (궁통보감)
+            </div>
+            <p style={{ margin: 0, lineHeight: '1.7', fontSize: '0.95rem', color: '#e2e8f0' }}>
+              {personality.johu}
+            </p>
+          </div>
+
+          {/* 강점 / 그림자 */}
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ flex: '1 1 200px', padding: '12px', background: 'rgba(96,165,250,0.15)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.8rem', color: '#93c5fd', fontWeight: 'bold', marginBottom: '6px' }}>✨ 핵심 강점</div>
+              <ul style={{ margin: 0, paddingLeft: '16px', color: '#e2e8f0', fontSize: '0.9rem', lineHeight: '1.8' }}>
+                {personality.traits.map((t, i) => <li key={i}>{t}</li>)}
+              </ul>
+            </div>
+            <div style={{ flex: '1 1 200px', padding: '12px', background: 'rgba(251,113,133,0.15)', borderRadius: '8px' }}>
+              <div style={{ fontSize: '0.8rem', color: '#fca5a5', fontWeight: 'bold', marginBottom: '6px' }}>🌒 그림자 (주의 성향)</div>
+              <p style={{ margin: 0, color: '#e2e8f0', fontSize: '0.9rem', lineHeight: '1.7' }}>
+                {personality.shadow}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* 자평진전 해설 */}
       <div className="interpretation-card" style={{ 
         marginBottom: '20px', 
