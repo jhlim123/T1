@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef } from 'react';
 import { getTenGods, calculateDaewun, getTwelveStages, getShenshaMock, calculateInternationalAge } from '../utils/sajuLogic';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations, translateTenGods, translateTwelveStages } from '../utils/translations';
@@ -20,6 +21,13 @@ const getElementClass = (char) => {
 export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAge, onSelectDaewun, onShowCreatorInfo }) {
   const { language } = useLanguage();
   const t = translations[language];
+  const activeDaewunRef = useRef(null);
+
+  useEffect(() => {
+    if (activeDaewunRef.current) {
+      activeDaewunRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [userInfo.birthDate]);
 
   if (!sajuData || !userInfo) return null;
 
@@ -134,6 +142,7 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
               {daewunList.map((dw, idx) => (
                 <th key={idx} 
                     onClick={() => onSelectDaewun(dw.age)}
+                    ref={age >= dw.age && age < dw.age + 10 ? activeDaewunRef : null}
                     style={{ 
                       cursor: 'pointer',
                       backgroundColor: dw.age === selectedDaewunAge ? '#ebf5ff' : 'transparent',

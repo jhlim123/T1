@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { calculateSewun, calculateWolun, getTenGods, getTwelveStages, getShenshaMock } from '../utils/sajuLogic';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations, translateTenGods, translateTwelveStages } from '../utils/translations';
@@ -21,10 +22,26 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
   const { language } = useLanguage();
   const t = translations[language];
   const monthEn = ["", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  
+  const sewunRef = useRef(null);
+  const wolunRef = useRef(null);
+
+  useEffect(() => {
+    if (sewunRef.current) {
+      sewunRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [selectedDaewunAge]);
+
+  useEffect(() => {
+    if (wolunRef.current) {
+      wolunRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [selectedSewunYear]);
 
   if (!sajuData || !userInfo) return null;
 
   const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
   const birthYear = parseInt(userInfo.birthDate.substring(0, 4)) || currentYear;
   
   // 대운이 선택되었을 때 보여줄 세운 리스트의 기준년도
@@ -50,6 +67,7 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
               {sewunList.map((sw, i) => (
                 <th key={i} 
                     onClick={() => onSelectSewun(sw.year)}
+                    ref={sw.year === currentYear ? sewunRef : null}
                     style={{ 
                       cursor: 'pointer', 
                       backgroundColor: sw.year === selectedSewunYear ? '#ecfdf5' : 'transparent',
@@ -103,7 +121,9 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
           <thead>
             <tr style={{ fontSize: '0.9rem' }}>
               {wolunList.map((ww, i) => (
-                <th key={i}>{language === 'ko' ? `${ww.month}월` : monthEn[ww.month]}<br/>{getTenGods(dayStem, ww.stem)}</th>
+                <th key={i} ref={ww.month === currentMonth ? wolunRef : null}>
+                  {language === 'ko' ? `${ww.month}월` : monthEn[ww.month]}<br/>{getTenGods(dayStem, ww.stem)}
+                </th>
               ))}
             </tr>
           </thead>
