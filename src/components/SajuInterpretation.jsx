@@ -143,7 +143,7 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
                   borderRadius: '12px', 
                   background: elementColorMap[el]?.bg || 'var(--bg-color)',
                   color: elementColorMap[el]?.text || 'var(--text-primary)',
-                  border: cnt === 0 ? '1px solid #ff3b30' : cnt >= 3 ? '1px solid #ffcc00' : '1px solid transparent' 
+                  border: el === '金' ? '1px solid #cbd5e1' : cnt === 0 ? '1px solid #ff3b30' : cnt >= 3 ? '1px solid #ffcc00' : '1px solid transparent' 
                 }}>
                   <div style={{ fontSize: '1rem', fontWeight: '600' }}>{el}</div>
                   <div style={{ fontSize: '0.75rem', opacity: 0.8, marginTop: '2px' }}>{cnt}개</div>
@@ -169,7 +169,8 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
                     background: elementColorMap[r.el]?.bg, 
                     color: elementColorMap[r.el]?.text,
                     fontWeight: 'bold',
-                    fontSize: '0.85rem'
+                    fontSize: '0.85rem',
+                    border: r.el === '金' ? '1px solid #cbd5e1' : 'none'
                   }}>
                     {r.el}
                   </span>

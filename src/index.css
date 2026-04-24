@@ -122,7 +122,7 @@ body {
 .wood { background-color: var(--wood-bg); color: var(--wood-text); }
 .fire { background-color: var(--fire-bg); color: var(--fire-text); }
 .earth { background-color: var(--earth-bg); color: var(--earth-text); }
-.metal { background-color: var(--metal-bg); color: var(--metal-text); }
+.metal { background-color: var(--metal-bg); color: var(--metal-text); border: 1px solid #cbd5e1; }
 .water { background-color: var(--water-bg); color: var(--water-text); }
 
 /* Table styles for Manseryeok */
