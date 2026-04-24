@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../utils/translations';
 
 export default function SajuHistory({ onSelect, onBack }) {
   const [history, setHistory] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc'); // 'desc' = 최신순, 'asc' = 오래된순
+  const { language } = useLanguage();
+  const t = translations[language];
 
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem('saju_history') || '[]');
@@ -16,27 +22,48 @@ export default function SajuHistory({ onSelect, onBack }) {
   };
 
   const handleClear = () => {
-    if (window.confirm('전체 기록을 삭제하시겠습니까?')) {
+    if (window.confirm(language === 'ko' ? '전체 기록을 삭제하시겠습니까?' : 'Are you sure you want to delete all records?')) {
       localStorage.removeItem('saju_history');
       setHistory([]);
     }
   };
 
+  const displayList = history
+    .filter(item => item.name.includes(searchQuery))
+    .sort((a, b) => sortOrder === 'desc' ? b.id - a.id : a.id - b.id);
+
   return (
     <div style={{ padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>사주 저장 목록</h2>
-        <button onClick={onBack} style={{ padding: '8px 16px', background: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>뒤로가기</button>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{t.historyTitle}</h2>
+        <button onClick={onBack} style={{ padding: '8px 16px', background: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>{t.back}</button>
       </div>
 
       {history.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
-          저장된 사주 정보가 없습니다.
+          {t.noHistory}
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {history.map((item) => (
-            <div 
+        <>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+            <input 
+              type="text" 
+              placeholder={t.searchPlaceholder} 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #e2e8f0', outline: 'none' }}
+            />
+            <button 
+              onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
+              style={{ padding: '0 15px', background: 'white', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569', minWidth: '100px' }}
+            >
+              {sortOrder === 'desc' ? t.sortLatest : t.sortOldest}
+            </button>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {displayList.map((item) => (
+              <div 
               key={item.id} 
               onClick={() => onSelect(item)}
               style={{ 
@@ -56,10 +83,10 @@ export default function SajuHistory({ onSelect, onBack }) {
             >
               <div>
                 <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#1e293b' }}>
-                  {item.name} <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#64748b' }}>({item.gender === 'male' ? '남' : '여'})</span>
+                  {item.name} <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#64748b' }}>({item.gender === 'male' ? (language === 'ko' ? '남' : 'M') : (language === 'ko' ? '여' : 'F')})</span>
                 </div>
                 <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '4px' }}>
-                  {item.birthDate.substring(0,4)}년 {item.birthDate.substring(4,6)}월 {item.birthDate.substring(6,8)}일 ({item.calendarType === 'solar' ? '양력' : '음력'})
+                  {item.birthDate.substring(0,4)} {language === 'ko' ? '년' : '/'} {item.birthDate.substring(4,6)} {language === 'ko' ? '월' : '/'} {item.birthDate.substring(6,8)} {language === 'ko' ? '일' : ''} ({item.calendarType === 'solar' ? t.solar : t.lunar})
                 </div>
               </div>
               <button 
@@ -75,7 +102,7 @@ export default function SajuHistory({ onSelect, onBack }) {
                   cursor: 'pointer'
                 }}
               >
-                삭제
+                {t.delete}
               </button>
             </div>
           ))}
@@ -93,9 +120,10 @@ export default function SajuHistory({ onSelect, onBack }) {
               cursor: 'pointer'
             }}
           >
-            기록 전체 삭제
+            {t.deleteAll}
           </button>
         </div>
+        </>
       )}
     </div>
   );

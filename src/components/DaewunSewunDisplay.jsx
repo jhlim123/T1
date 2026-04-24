@@ -1,4 +1,6 @@
 import { calculateSewun, calculateWolun, getTenGods, getTwelveStages, getShenshaMock } from '../utils/sajuLogic';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations, translateTenGods, translateTwelveStages } from '../utils/translations';
 
 const getElementClass = (char) => {
   const wood = ['甲', '乙', '寅', '卯'];
@@ -16,6 +18,10 @@ const getElementClass = (char) => {
 };
 
 export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunAge, selectedSewunYear, onSelectSewun }) {
+  const { language } = useLanguage();
+  const t = translations[language];
+  const monthEn = ["", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
   if (!sajuData || !userInfo) return null;
 
   const currentYear = new Date().getFullYear();
@@ -35,7 +41,7 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
     <div style={{ padding: '0 5px' }}>
       {/* Sewun Section */}
       <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', margin: '20px 0 15px' }}>
-        세운 ({selectedDaewunAge ? `${selectedDaewunAge}세 대운` : '현재'})
+        {t.sewunTitle} ({selectedDaewunAge ? `${selectedDaewunAge}${t.ageSuffix} ${t.daewunTitle}` : (language === 'ko' ? '현재' : 'Current')})
       </div>
       <div className="horizontal-scroll" style={{ paddingBottom: '10px' }}>
         <table className="saju-table" style={{ minWidth: '650px' }}>
@@ -90,14 +96,14 @@ export default function DaewunSewunDisplay({ sajuData, userInfo, selectedDaewunA
 
       {/* Wolun Section */}
       <div style={{ textAlign: 'center', fontSize: '1.2rem', fontWeight: 'bold', margin: '20px 0 15px' }}>
-        {selectedSewunYear}년 월운
+        {language === 'ko' ? `${selectedSewunYear}년 월운` : `${selectedSewunYear} ${t.wolunTitle}`}
       </div>
       <div className="horizontal-scroll" style={{ paddingBottom: '10px' }}>
         <table className="saju-table" style={{ minWidth: '850px' }}>
           <thead>
             <tr style={{ fontSize: '0.9rem' }}>
               {wolunList.map((ww, i) => (
-                <th key={i}>{ww.month}월<br/>{getTenGods(dayStem, ww.stem)}</th>
+                <th key={i}>{language === 'ko' ? `${ww.month}월` : monthEn[ww.month]}<br/>{getTenGods(dayStem, ww.stem)}</th>
               ))}
             </tr>
           </thead>

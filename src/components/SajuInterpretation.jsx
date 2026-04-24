@@ -3,10 +3,22 @@ import { getPersonalityAnalysis } from '../utils/personalityLogic';
 import { getFullAnalysis } from '../utils/fullAnalysis';
 import { generateExpertPrompt } from '../utils/aiPromptGenerator';
 import { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations, translateTenGods } from '../utils/translations';
 
 export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYear, onReset }) {
+  const { language } = useLanguage();
+  const t = translations[language];
   const [showPrompt, setShowPrompt] = useState(false);
   const [copied, setCopied] = useState(false);
+  const monthEn = ["", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+  const handleTranslate = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert(t.copiedAndTranslate);
+      window.open(`https://translate.google.com/?sl=ko&tl=${language === 'ko' ? 'en' : language}&text=${encodeURIComponent(text)}&op=translate`, '_blank');
+    });
+  };
 
   if (!sajuData || !userInfo) return null;
 
@@ -25,7 +37,7 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
   return (
     <div className="interpretation-container" style={{ padding: '20px', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0', paddingBottom: '60px' }}>
       <h3 className="section-title" style={{ fontSize: '1.3rem', fontWeight: 'bold', borderLeft: '5px solid #3b82f6', paddingLeft: '12px', marginBottom: '20px', color: '#1e293b' }}>
-        사주 심층 해설
+        {t.analysisTitle}
       </h3>
 
       {/* ① 성격 풀이 - 일간 + 월지 + 조후 */}
@@ -33,11 +45,16 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         <div style={{ marginBottom: '20px', padding: '20px', background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)', borderRadius: '16px', color: 'white', boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '1.5rem' }}>🌟</span>
-            <h4 style={{ fontWeight: 'bold', fontSize: '1.15rem', margin: 0 }}>나의 성격 풀이</h4>
+            <h4 style={{ fontWeight: 'bold', fontSize: '1.15rem', margin: 0 }}>{t.personalityTitle}</h4>
             <span style={{ marginLeft: 'auto', background: 'rgba(255,255,255,0.15)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.85rem' }}>
               {personality.keyword}
             </span>
           </div>
+          {language !== 'ko' && (
+            <button onClick={() => handleTranslate(`나의 성격 풀이\n\n핵심 키워드: ${personality.keyword}\n\n[일간 - 타고난 본성]\n${personality.core}\n\n[월지 - 사회적 성격]\n${personality.social}\n\n[조후 - 계절의 기운]\n${personality.johu}\n\n[핵심 강점]\n${personality.traits.join('\n')}\n\n[그림자 - 주의 성향]\n${personality.shadow}`)} style={{ marginBottom: '15px', padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+              🌍 {t.translateBtn}
+            </button>
+          )}
           <div style={{ marginBottom: '14px', padding: '14px', background: 'rgba(255,255,255,0.08)', borderRadius: '10px', borderLeft: '3px solid #60a5fa' }}>
             <div style={{ fontSize: '0.8rem', color: '#93c5fd', fontWeight: 'bold', marginBottom: '6px' }}>☯ 일간({personality.dayStem}) — 타고난 본성</div>
             <p style={{ margin: 0, lineHeight: '1.7', fontSize: '0.95rem', color: '#e2e8f0', wordBreak: 'keep-all' }}>{personality.core}</p>
@@ -68,7 +85,14 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
       {/* ② 명리학 전문가 6대 분석 */}
       {fullAnalysis && (
         <div style={{ marginBottom: '20px' }}>
-          <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', borderLeft: '5px solid #6366f1', paddingLeft: '12px', marginBottom: '14px', color: '#1e293b' }}>🔬 전문가 종합 분석</h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
+            <h4 style={{ fontSize: '1.1rem', fontWeight: 'bold', borderLeft: '5px solid #6366f1', paddingLeft: '12px', margin: 0, color: '#1e293b' }}>🔬 {t.expertAnalysisTitle}</h4>
+            {language !== 'ko' && (
+              <button onClick={() => handleTranslate(`전문가 종합 분석\n\n[1. 일주 기질]\n${fullAnalysis.dayPillarInfo}\n\n[2. 십성 흐름]\n주도적 십성: ${fullAnalysis.dominantGod}\n직업 적성: ${fullAnalysis.lifeInfo.job}\n\n[3. 장단점]\n장점: ${fullAnalysis.lifeInfo.money}\n주의: ${fullAnalysis.excess.length > 0 ? fullAnalysis.excess.map(e => fullAnalysis.excessWarning[e]).join(' ') : '균형 잡힘'}\n\n[4. 핵심 조언]\n${fullAnalysis.dayPillarInfo} 균형 잡힌 삶을 위해 자신의 강점을 살리되, 부족한 기운을 의식적으로 보완해 나가는 것이 이 사주의 핵심 과제입니다.`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                🌍 {t.translateBtn}
+              </button>
+            )}
+          </div>
 
           {/* 1. 일주 기질 */}
           <div style={{ marginBottom: '10px', padding: '14px', backgroundColor: 'white', borderRadius: '10px', border: '2px solid #e0e7ff' }}>
@@ -149,18 +173,32 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
       {interpretation && (
         <>
           <div className="interpretation-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
-            <h4 style={{ color: '#2563eb', marginBottom: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', fontSize: '1.1rem' }}>
-              <span style={{ marginRight: '8px' }}>📜</span> 자평진전(子平眞詮) 기준 격국론
-            </h4>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
+              <h4 style={{ color: '#2563eb', margin: 0, fontWeight: 'bold', display: 'flex', alignItems: 'center', fontSize: '1.1rem' }}>
+                <span style={{ marginRight: '8px' }}>📜</span> {t.japyungTitle}
+              </h4>
+              {language !== 'ko' && (
+                <button onClick={() => handleTranslate(`자평진전 격국론\n\n[${interpretation.gyeok}격]: ${interpretation.japyung}`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                  🌍 {t.translateBtn}
+                </button>
+              )}
+            </div>
             <p className="interpretation-text" style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
               <strong>[{interpretation.gyeok}격]</strong>: {interpretation.japyung}
             </p>
           </div>
 
           <div className="interpretation-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)', border: '1px solid #f1f5f9' }}>
-            <h4 style={{ color: '#0891b2', marginBottom: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', fontSize: '1.1rem' }}>
-              <span style={{ marginRight: '8px' }}>🌊</span> 연해자평(淵海子平) 기준 성정 및 운세
-            </h4>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '10px' }}>
+              <h4 style={{ color: '#0891b2', margin: 0, fontWeight: 'bold', display: 'flex', alignItems: 'center', fontSize: '1.1rem' }}>
+                <span style={{ marginRight: '8px' }}>🌊</span> {t.yeonhaeTitle}
+              </h4>
+              {language !== 'ko' && (
+                <button onClick={() => handleTranslate(`연해자평 기준 성정 및 운세\n\n${interpretation.yeonhae}`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                  🌍 {t.translateBtn}
+                </button>
+              )}
+            </div>
             <p className="interpretation-text" style={{ lineHeight: '1.8', color: '#475569', fontSize: '1rem', wordBreak: 'keep-all' }}>
               {interpretation.yeonhae}
             </p>
@@ -171,9 +209,16 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
       {/* ③ 운세 흐름 해설 (luck null 체크) */}
       {luck && luck.daewun && (
         <div className="luck-flow-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: '#eff6ff', borderRadius: '12px', border: '1px solid #bfdbfe' }}>
-          <h4 style={{ color: '#1d4ed8', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
-            🔮 대운 해설 — {luck.daewun.age}세 ({luck.daewun.pillar} {luck.daewun.god}운)
-          </h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', flexWrap: 'wrap', gap: '10px' }}>
+            <h4 style={{ color: '#1d4ed8', margin: 0, fontWeight: 'bold', fontSize: '1.1rem' }}>
+              🔮 {t.daewunDesc} — {luck.daewun.age}{t.ageSuffix} ({luck.daewun.pillar} {luck.daewun.god}운)
+            </h4>
+            {language !== 'ko' && (
+              <button onClick={() => handleTranslate(`대운 해설\n\n[자평진전 관점]\n${luck.daewun.japyung}\n\n[연해자평 관점]\n${luck.daewun.yeonhae}`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                🌍 {t.translateBtn}
+              </button>
+            )}
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #dbeafe' }}>
               <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>📜 자평진전 관점</strong>
@@ -189,9 +234,16 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
 
       {luck && luck.sewun && (
         <div className="luck-flow-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: '#f0fdf4', borderRadius: '12px', border: '1px solid #bbf7d0' }}>
-          <h4 style={{ color: '#15803d', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
-            📅 세운 해설 — {luck.sewun.year}년 ({luck.sewun.pillar} {luck.sewun.god}운)
-          </h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', flexWrap: 'wrap', gap: '10px' }}>
+            <h4 style={{ color: '#15803d', margin: 0, fontWeight: 'bold', fontSize: '1.1rem' }}>
+              📅 {t.sewunDesc} — {luck.sewun.year}{language === 'ko' ? '년' : ''} ({luck.sewun.pillar} {luck.sewun.god}운)
+            </h4>
+            {language !== 'ko' && (
+              <button onClick={() => handleTranslate(`세운 해설\n\n[자평진전 관점]\n${luck.sewun.japyung}\n\n[연해자평 관점]\n${luck.sewun.yeonhae}`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                🌍 {t.translateBtn}
+              </button>
+            )}
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #d1fae5' }}>
               <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>📜 자평진전 관점</strong>
@@ -207,13 +259,20 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
 
       {luck && luck.monthlyLuck && luck.monthlyLuck.length > 0 && (
         <div className="luck-flow-card" style={{ marginBottom: '25px', padding: '20px', backgroundColor: '#fefce8', borderRadius: '12px', border: '1px solid #fde68a' }}>
-          <h4 style={{ color: '#a16207', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
-            🌙 절운(월운) 상세 해설
-          </h4>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', flexWrap: 'wrap', gap: '10px' }}>
+            <h4 style={{ color: '#a16207', margin: 0, fontWeight: 'bold', fontSize: '1.1rem' }}>
+              🌙 {t.wolunDesc}
+            </h4>
+            {language !== 'ko' && (
+              <button onClick={() => handleTranslate(`월운 상세 해설\n\n${luck.monthlyLuck.map(ml => `[${language === 'ko' ? `${ml.month}월` : monthEn[ml.month]}]\n${ml.desc}`).join('\n\n')}`)} style={{ padding: '6px 12px', background: '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontSize: '0.85rem' }}>
+                🌍 {t.translateBtn}
+              </button>
+            )}
+          </div>
           <div className="monthly-grid" style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '500px', overflowY: 'auto', paddingRight: '5px' }}>
             {luck.monthlyLuck.map((ml, idx) => (
               <div key={idx} style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #fde68a' }}>
-                <strong style={{ color: '#a16207', fontSize: '0.95rem' }}>{ml.month}월 ({ml.pillar} {ml.god}운)</strong>
+                <strong style={{ color: '#a16207', fontSize: '0.95rem' }}>{language === 'ko' ? `${ml.month}월` : monthEn[ml.month]} ({ml.pillar} {ml.god}운)</strong>
                 <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <p style={{ color: '#475569', lineHeight: '1.6', fontSize: '0.95rem', margin: 0, wordBreak: 'keep-all' }}>
                     <span style={{ color: '#d97706', fontWeight: 'bold', marginRight: '6px' }}>✨</span> {ml.desc}
@@ -230,13 +289,13 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         <div style={{ marginBottom: '25px', padding: '20px', background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)', borderRadius: '12px', border: '1px solid #cbd5e1', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
             <h4 style={{ color: '#334155', margin: 0, fontWeight: 'bold', fontSize: '1.1rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>🤖</span> AI 명리학 심층 분석 프롬프트
+              <span>🤖</span> {t.aiPromptTitle}
             </h4>
             <button
               onClick={() => setShowPrompt(!showPrompt)}
               style={{ padding: '6px 12px', fontSize: '0.85rem', background: 'white', border: '1px solid #cbd5e1', borderRadius: '6px', cursor: 'pointer', color: '#475569', fontWeight: 'bold' }}
             >
-              {showPrompt ? '숨기기' : '프롬프트 보기'}
+              {showPrompt ? t.hidePrompt : t.showPrompt}
             </button>
           </div>
           <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '10px', lineHeight: '1.5' }}>
@@ -259,7 +318,7 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
                   }}
                   style={{ position: 'absolute', top: '10px', right: '10px', padding: '8px 16px', background: copied ? '#10b981' : '#3b82f6', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold', fontSize: '0.85rem', transition: 'background 0.2s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
                 >
-                  {copied ? '✅ 복사완료' : '📋 전체 복사하기'}
+                  {copied ? t.copied : `📋 ${t.copyAll}`}
                 </button>
               </div>
             </div>
@@ -284,12 +343,12 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}
         >
-          새로운 사주입력
+          {t.newLookup}
         </button>
       </div>
 
       <div style={{ marginTop: '30px', fontSize: '0.85rem', color: '#94a3b8', textAlign: 'center', padding: '10px' }}>
-        ※ 위 해설은 고전 문헌의 내용을 바탕으로 한 인공지능 분석 결과입니다.
+        {t.aiNotice}
       </div>
     </div>
   );

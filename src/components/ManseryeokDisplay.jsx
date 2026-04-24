@@ -1,4 +1,6 @@
 import { getTenGods, calculateDaewun, getTwelveStages, getShenshaMock, calculateInternationalAge } from '../utils/sajuLogic';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations, translateTenGods, translateTwelveStages } from '../utils/translations';
 
 const getElementClass = (char) => {
   const wood = ['甲', '乙', '寅', '卯'];
@@ -16,6 +18,9 @@ const getElementClass = (char) => {
 };
 
 export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAge, onSelectDaewun, onShowCreatorInfo }) {
+  const { language } = useLanguage();
+  const t = translations[language];
+
   if (!sajuData || !userInfo) return null;
 
   const yearStem = sajuData.yearPillarHanja?.[0] || '';
@@ -32,9 +37,10 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
   const age = calculateInternationalAge(userInfo.birthDate);
 
   const formattedDate = `${userInfo.birthDate.substring(0,4)}년${userInfo.birthDate.substring(4,6)}월${userInfo.birthDate.substring(6,8)}일`;
+  const formattedDateEn = `${userInfo.birthDate.substring(0,4)}.${userInfo.birthDate.substring(4,6)}.${userInfo.birthDate.substring(6,8)}`;
   const formattedTime = userInfo.knowTime && userInfo.birthTime ? `${userInfo.birthTime.substring(0,2)}:${userInfo.birthTime.substring(2,4)}` : '';
 
-  // Calculate Ten Gods
+  // Calculate Ten Gods (Do not translate Saju terms as requested)
   const yearStemGod = getTenGods(dayStem, yearStem);
   const yearBranchGod = getTenGods(dayStem, yearBranch);
   const monthStemGod = getTenGods(dayStem, monthStem);
@@ -60,15 +66,17 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
             </div>
           </div>
           <div>
-            <div className="profile-name" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>{userInfo.name || '이름없음'} (만 {age}세)</div>
+            <div className="profile-name" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
+              {userInfo.name || t.unknown} <span style={{fontSize: '0.9rem', fontWeight: 'normal'}}>{userInfo.gender === 'male' ? (language === 'ko' ? '남(乾命)' : 'Male') : (language === 'ko' ? '여(坤命)' : 'Female')}</span> ({t.age} {age}{t.ageSuffix})
+            </div>
             <div className="profile-date" style={{ fontSize: '0.85rem', opacity: 0.9 }}>
-              ({userInfo.calendarType === 'solar' ? '양력' : '음력'}) {formattedDate} {formattedTime}
+              ({userInfo.calendarType === 'solar' ? t.solar : t.lunar}) {language === 'ko' ? formattedDate : formattedDateEn} {formattedTime}
             </div>
           </div>
         </div>
         <div 
           onClick={onShowCreatorInfo}
-          title="만든 사람 정보"
+          title={t.creatorInfo}
           style={{ width: '28px', height: '28px', border: '1px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', flexShrink: 0, transition: 'background-color 0.2s', backgroundColor: 'transparent' }}
           onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
@@ -82,16 +90,16 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
         <table className="saju-table" style={{ minWidth: '350px' }}>
           <thead>
             <tr style={{ backgroundColor: '#d1d5db', borderBottom: '2px solid white' }}>
-              <th style={{ borderRight: '2px solid white' }}>시 주</th>
-              <th style={{ borderRight: '2px solid white' }}>일 주</th>
-              <th style={{ borderRight: '2px solid white' }}>월 주</th>
-              <th>년 주</th>
+              <th style={{ borderRight: '2px solid white' }}>{t.hourPillar}</th>
+              <th style={{ borderRight: '2px solid white' }}>{t.dayPillar}</th>
+              <th style={{ borderRight: '2px solid white' }}>{t.monthPillar}</th>
+              <th>{t.yearPillar}</th>
             </tr>
           </thead>
           <tbody>
             <tr style={{ backgroundColor: '#f3f4f6', fontSize: '0.9rem', borderBottom: '4px solid white' }}>
-              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.hourPillar || '모름'}<br/>{hourStemGod}</td>
-              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.dayPillar}<br/><span style={{color: '#3b82f6', fontWeight: 'bold'}}>일간(나)</span></td>
+              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.hourPillar || t.unknown}<br/>{hourStemGod}</td>
+              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.dayPillar}<br/><span style={{color: '#3b82f6', fontWeight: 'bold'}}>{t.dayMaster}</span></td>
               <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.monthPillar}<br/>{monthStemGod}</td>
               <td style={{ padding: '8px 5px' }}>{sajuData.yearPillar}<br/>{yearStemGod}</td>
             </tr>
@@ -119,8 +127,8 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
 
       {/* Daewun Header */}
       <div className="daewun-header" style={{ textAlign: 'center', margin: '15px 0 10px', fontSize: '1.1rem', fontWeight: 'bold', lineHeight: '1.5' }}>
-        만나이 (대운수 : 9 , {isForward ? '순행' : '역행'}) 생후9년2개월11일<br/>
-        첫대운: {birthYear + 9}년 04월 14일경
+        {t.age} ({t.daewunTitle} : 9 , {isForward ? (language === 'ko' ? '순행' : 'Forward') : (language === 'ko' ? '역행' : 'Reverse')})<br/>
+        {language === 'ko' ? `첫대운: ${birthYear + 9}년 04월 14일경` : `First Daewun: Around Apr 14, ${birthYear + 9}`}
       </div>
 
       {/* Daewun Grid */}
@@ -165,7 +173,7 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
                 <td key={idx} 
                     onClick={() => onSelectDaewun(dw.age)}
                     style={{ paddingTop: '8px', cursor: 'pointer', backgroundColor: dw.age === selectedDaewunAge ? '#ebf5ff' : 'transparent' }}>
-                  {getTenGods(dayStem, dw.branch)}<br/>{getTwelveStages(dayStem, dw.branch)}<br/>{getShenshaMock()}<br/>{getShenshaMock()}
+                  {getTenGods(dayStem, dw.branch)}<br/>{getTwelveStages(dayStem, dw.branch)}
                 </td>
               ))}
             </tr>

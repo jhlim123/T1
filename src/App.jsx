@@ -7,7 +7,8 @@ import { calculateSaju, lunarToSolar } from '@fullstackfamily/manseryeok';
 import { calculateInternationalAge } from './utils/sajuLogic';
 import SajuHistory from './components/SajuHistory';
 import CreatorInfoModal from './components/CreatorInfoModal';
-import { Info } from 'lucide-react';
+import { useLanguage } from './contexts/LanguageContext';
+import { translations } from './utils/translations';
 import './index.css';
 
 function App() {
@@ -17,6 +18,8 @@ function App() {
   const [selectedDaewunAge, setSelectedDaewunAge] = useState(null);
   const [selectedSewunYear, setSelectedSewunYear] = useState(null);
   const [showCreatorInfo, setShowCreatorInfo] = useState(false);
+  const { language, toggleLanguage } = useLanguage();
+  const t = translations[language];
 
   const handleLookup = (formData) => {
     if (!formData.birthDate || formData.birthDate.length !== 8) {
@@ -120,26 +123,6 @@ function App() {
         <>
           <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <button 
-              onClick={() => setShowCreatorInfo(true)}
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                cursor: 'pointer', 
-                color: '#94a3b8', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                padding: '8px',
-                borderRadius: '50%',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-              title="만든 사람 정보"
-            >
-              <Info size={24} />
-            </button>
-            <button 
               onClick={() => setView('history')}
               style={{ 
                 padding: '10px 18px', 
@@ -152,11 +135,52 @@ function App() {
                 fontWeight: 'bold',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
                 boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
               }}>
-              📜 저장된 사주 보기
+              {t.savedHistory}
             </button>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                onClick={toggleLanguage}
+                style={{
+                  padding: '6px 12px',
+                  background: 'white',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '0.85rem',
+                  color: '#4b5563'
+                }}
+              >
+                {language === 'ko' ? '🇺🇸 EN' : '🇰🇷 KO'}
+              </button>
+
+              <div 
+                onClick={() => setShowCreatorInfo(true)}
+                title={t.creatorInfo}
+                style={{ 
+                  width: '28px', 
+                  height: '28px', 
+                  border: '1px solid #94a3b8', 
+                  borderRadius: '50%', 
+                  display: 'flex', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  fontWeight: 'bold', 
+                  fontSize: '1rem', 
+                  cursor: 'pointer', 
+                  color: '#94a3b8',
+                  transition: 'background-color 0.2s',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                i
+              </div>
+            </div>
           </div>
           <SajuInputForm onSubmit={handleLookup} />
         </>
