@@ -26,6 +26,34 @@
   --water-text: #ffffff;
 }
 
+.portrait-alert {
+  display: none;
+  background: rgba(29, 29, 31, 0.85);
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .portrait-alert {
+    display: block;
+  }
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

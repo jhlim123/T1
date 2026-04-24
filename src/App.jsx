@@ -119,6 +119,9 @@ function App() {
 
   return (
     <div className="app-container">
+      <div className="portrait-alert">
+        {t.portraitWarning}
+      </div>
       {view === 'input' && (
         <>
           <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
