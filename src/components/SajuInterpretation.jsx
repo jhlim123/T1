@@ -68,52 +68,59 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
         </p>
       </div>
 
-      {/* 운세 흐름 분석 */}
-      <div className="luck-flow-card" style={{ 
-        marginBottom: '25px', 
-        padding: '20px', 
-        backgroundColor: '#eff6ff', 
-        borderRadius: '12px', 
-        border: '1px solid #bfdbfe'
-      }}>
+      {/* 대운 해설 */}
+      <div className="luck-flow-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: '#eff6ff', borderRadius: '12px', border: '1px solid #bfdbfe' }}>
         <h4 style={{ color: '#1d4ed8', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
-          ✨ 현재 운세 흐름 (대운 & 세운)
+          🔮 대운 해설 — {luck.daewun.age}세 ({luck.daewun.pillar} {luck.daewun.god}운)
         </h4>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <div>
-            <strong style={{ color: '#1e40af' }}>[대운] {luck.daewun.age}세 대운 ({luck.daewun.pillar} {luck.daewun.god}운)</strong>
-            <p className="luck-desc" style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.daewun.desc}</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #dbeafe' }}>
+            <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>📜 자평진전 관점</strong>
+            <p className="luck-desc" style={{ marginTop: '6px', color: '#334155', lineHeight: '1.7', wordBreak: 'keep-all' }}>{luck.daewun.japyung}</p>
           </div>
-          <div>
-            <strong style={{ color: '#1e40af' }}>[세운] {luck.sewun.year}년 세운 ({luck.sewun.pillar} {luck.sewun.god}운)</strong>
-            <p className="luck-desc" style={{ marginTop: '5px', color: '#334155', lineHeight: '1.6' }}>{luck.sewun.desc}</p>
+          <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #dbeafe' }}>
+            <strong style={{ color: '#0891b2', fontSize: '0.95rem' }}>🌊 연해자평 관점</strong>
+            <p className="luck-desc" style={{ marginTop: '6px', color: '#334155', lineHeight: '1.7', wordBreak: 'keep-all' }}>{luck.daewun.yeonhae}</p>
           </div>
         </div>
+      </div>
 
-        {/* 월별 상세 해설 */}
-        <div style={{ marginTop: '20px', borderTop: '1px solid #bfdbfe', paddingTop: '15px' }}>
-          <h5 style={{ color: '#1e40af', marginBottom: '10px', fontWeight: 'bold' }}>📅 월별 상세 해설</h5>
-          <div className="monthly-grid" style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', 
-            gap: '12px',
-            maxHeight: '400px',
-            overflowY: 'auto',
-            paddingRight: '5px'
-          }}>
-            {luck.monthlyLuck.map((ml, idx) => (
-              <div key={idx} style={{ 
-                padding: '12px', 
-                backgroundColor: 'white', 
-                borderRadius: '8px', 
-                border: '1px solid #e2e8f0',
-                fontSize: '0.9rem'
-              }}>
-                <strong style={{ color: '#2563eb' }}>{ml.month}월 ({ml.pillar} {ml.god}운)</strong>
-                <p style={{ marginTop: '4px', color: '#475569', lineHeight: '1.5' }}>{ml.desc}</p>
-              </div>
-            ))}
+      {/* 세운 해설 */}
+      <div className="luck-flow-card" style={{ marginBottom: '20px', padding: '20px', backgroundColor: '#f0fdf4', borderRadius: '12px', border: '1px solid #bbf7d0' }}>
+        <h4 style={{ color: '#15803d', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
+          📅 세운 해설 — {luck.sewun.year}년 ({luck.sewun.pillar} {luck.sewun.god}운)
+        </h4>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #d1fae5' }}>
+            <strong style={{ color: '#2563eb', fontSize: '0.95rem' }}>📜 자평진전 관점</strong>
+            <p className="luck-desc" style={{ marginTop: '6px', color: '#334155', lineHeight: '1.7', wordBreak: 'keep-all' }}>{luck.sewun.japyung}</p>
           </div>
+          <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #d1fae5' }}>
+            <strong style={{ color: '#0891b2', fontSize: '0.95rem' }}>🌊 연해자평 관점</strong>
+            <p className="luck-desc" style={{ marginTop: '6px', color: '#334155', lineHeight: '1.7', wordBreak: 'keep-all' }}>{luck.sewun.yeonhae}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* 절운(월운) 해설 */}
+      <div className="luck-flow-card" style={{ marginBottom: '25px', padding: '20px', backgroundColor: '#fefce8', borderRadius: '12px', border: '1px solid #fde68a' }}>
+        <h4 style={{ color: '#a16207', marginBottom: '15px', fontWeight: 'bold', fontSize: '1.1rem' }}>
+          🌙 절운(월운) 상세 해설
+        </h4>
+        <div className="monthly-grid" style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxHeight: '500px', overflowY: 'auto', paddingRight: '5px' }}>
+          {luck.monthlyLuck.map((ml, idx) => (
+            <div key={idx} style={{ padding: '12px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #fde68a' }}>
+              <strong style={{ color: '#a16207', fontSize: '0.95rem' }}>{ml.month}월 ({ml.pillar} {ml.god}운)</strong>
+              <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <p style={{ color: '#475569', lineHeight: '1.5', fontSize: '0.9rem', margin: 0 }}>
+                  <span style={{ color: '#2563eb', fontWeight: 'bold' }}>📜</span> {ml.japyung}
+                </p>
+                <p style={{ color: '#475569', lineHeight: '1.5', fontSize: '0.9rem', margin: 0 }}>
+                  <span style={{ color: '#0891b2', fontWeight: 'bold' }}>🌊</span> {ml.yeonhae}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
