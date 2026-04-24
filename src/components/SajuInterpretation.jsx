@@ -20,6 +20,15 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
     });
   };
 
+  const elementColorMap = {
+    '木': { bg: 'var(--wood-bg)', text: 'var(--wood-text)' },
+    '火': { bg: 'var(--fire-bg)', text: 'var(--fire-text)' },
+    '土': { bg: 'var(--earth-bg)', text: 'var(--earth-text)' },
+    '金': { bg: 'var(--metal-bg)', text: 'var(--metal-text)' },
+    '수': { bg: 'var(--water-bg)', text: 'var(--water-text)' }, // Backwards compatibility for Ko names if any
+    '水': { bg: 'var(--water-bg)', text: 'var(--water-text)' }
+  };
+
   if (!sajuData || !userInfo) return null;
 
   let interpretation = null;
@@ -127,17 +136,53 @@ export default function SajuInterpretation({ sajuData, userInfo, selectedSewunYe
             <div style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '0.95rem', marginBottom: '10px' }}>④ 오행 분포 & 실생활 보완책</div>
             <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
               {Object.entries(fullAnalysis.elementDist).map(([el, cnt]) => (
-                <div key={el} style={{ flex: '1 1 44px', textAlign: 'center', padding: '10px 4px', borderRadius: '12px', background: 'var(--bg-color)', border: cnt === 0 ? '1px solid #ff3b30' : cnt >= 3 ? '1px solid #ffcc00' : '1px solid transparent' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)' }}>{el}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '2px' }}>{cnt}개</div>
+                <div key={el} style={{ 
+                  flex: '1 1 44px', 
+                  textAlign: 'center', 
+                  padding: '10px 4px', 
+                  borderRadius: '12px', 
+                  background: elementColorMap[el]?.bg || 'var(--bg-color)',
+                  color: elementColorMap[el]?.text || 'var(--text-primary)',
+                  border: cnt === 0 ? '1px solid #ff3b30' : cnt >= 3 ? '1px solid #ffcc00' : '1px solid transparent' 
+                }}>
+                  <div style={{ fontSize: '1rem', fontWeight: '600' }}>{el}</div>
+                  <div style={{ fontSize: '0.75rem', opacity: 0.8, marginTop: '2px' }}>{cnt}개</div>
                 </div>
               ))}
             </div>
             {fullAnalysis.remedies.filter(r => r.color).map(r => (
-              <div key={r.el} style={{ padding: '14px', background: 'var(--bg-color)', borderRadius: '12px', fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-secondary)' }}>
-                <strong style={{ color: 'var(--text-primary)' }}>보완 오행: {r.el}</strong> — {fullAnalysis.lackingAdvice[r.el]}<br/>
-                <span style={{color: 'var(--text-primary)', fontWeight: '500'}}>추천 색상:</span> {r.color} &nbsp; <span style={{color: 'var(--text-primary)', fontWeight: '500'}}>추천 식품:</span> {r.food}<br/>
-                <span style={{color: 'var(--text-primary)', fontWeight: '500'}}>추천 습관:</span> {r.habits?.join(', ')}
+              <div key={r.el} style={{ 
+                padding: '16px', 
+                background: 'var(--surface-color)', 
+                border: `1px solid ${elementColorMap[r.el]?.bg}`,
+                borderLeft: `6px solid ${elementColorMap[r.el]?.bg}`,
+                borderRadius: '16px', 
+                fontSize: '0.9rem', 
+                marginBottom: '10px', 
+                color: 'var(--text-secondary)',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.02)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <span style={{ 
+                    padding: '4px 10px', 
+                    borderRadius: '8px', 
+                    background: elementColorMap[r.el]?.bg, 
+                    color: elementColorMap[r.el]?.text,
+                    fontWeight: 'bold',
+                    fontSize: '0.85rem'
+                  }}>
+                    {r.el}
+                  </span>
+                  <strong style={{ color: 'var(--text-primary)' }}>보완 조언</strong>
+                </div>
+                <p style={{ margin: '0 0 10px', lineHeight: '1.6', color: 'var(--text-primary)', fontWeight: '500' }}>{fullAnalysis.lackingAdvice[r.el]}</p>
+                <div style={{ fontSize: '0.85rem' }}>
+                  <span style={{color: 'var(--text-secondary)'}}>추천 색상:</span> <span style={{color: 'var(--text-primary)', fontWeight: '600'}}>{r.color}</span> &nbsp; 
+                  <span style={{color: 'var(--text-secondary)', marginLeft: '10px'}}>추천 식품:</span> <span style={{color: 'var(--text-primary)', fontWeight: '600'}}>{r.food}</span><br/>
+                  <div style={{marginTop: '6px'}}>
+                    <span style={{color: 'var(--text-secondary)'}}>추천 습관:</span> <span style={{color: 'var(--text-primary)', fontWeight: '600'}}>{r.habits?.join(', ')}</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
