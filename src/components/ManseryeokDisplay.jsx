@@ -58,18 +58,13 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
   return (
     <div>
       {/* Header Profile Area */}
-      <div className="profile-area" style={{ backgroundColor: '#3b82f6', padding: '15px 20px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+      <div className="profile-area" style={{ backgroundColor: 'var(--bg-color)', padding: '24px 20px', borderRadius: '24px', margin: '20px 20px 30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: '1 1 auto' }}>
-          <div style={{ width: '48px', height: '48px', backgroundColor: '#e5e7eb', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden', border: '2px solid white', flexShrink: 0 }}>
-            <div style={{ width: '100%', height: '100%', backgroundColor: '#fcd34d', position: 'relative' }}>
-              <div style={{ position: 'absolute', bottom: 0, width: '100%', height: '40%', backgroundColor: '#fbbf24' }}></div>
-            </div>
-          </div>
           <div>
-            <div className="profile-name" style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>
-              {userInfo.name || t.unknown} <span style={{fontSize: '0.9rem', fontWeight: 'normal'}}>{userInfo.gender === 'male' ? (language === 'ko' ? '남(乾命)' : 'Male') : (language === 'ko' ? '여(坤命)' : 'Female')}</span> ({t.age} {age}{t.ageSuffix})
+            <div className="profile-name" style={{ fontSize: '1.1rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>
+              {userInfo.name || t.unknown} <span style={{fontSize: '0.9rem', fontWeight: 'normal', color: 'var(--text-secondary)'}}>{userInfo.gender === 'male' ? (language === 'ko' ? '남(乾命)' : 'Male') : (language === 'ko' ? '여(坤命)' : 'Female')}</span> ({t.age} {age}{t.ageSuffix})
             </div>
-            <div className="profile-date" style={{ fontSize: '0.85rem', opacity: 0.9 }}>
+            <div className="profile-date" style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
               ({userInfo.calendarType === 'solar' ? t.solar : t.lunar}) {language === 'ko' ? formattedDate : formattedDateEn} {formattedTime}
             </div>
           </div>
@@ -77,8 +72,8 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
         <div 
           onClick={onShowCreatorInfo}
           title={t.creatorInfo}
-          style={{ width: '28px', height: '28px', border: '1px solid white', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', flexShrink: 0, transition: 'background-color 0.2s', backgroundColor: 'transparent' }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+          style={{ width: '28px', height: '28px', border: '1px solid var(--border-color)', borderRadius: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: '500', fontSize: '1rem', cursor: 'pointer', flexShrink: 0, transition: 'background-color 0.2s', backgroundColor: 'transparent', color: 'var(--text-secondary)' }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'var(--surface-color)'}
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           i
@@ -89,25 +84,25 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
       <div className="horizontal-scroll" style={{ width: '100%', padding: '0' }}>
         <table className="saju-table" style={{ minWidth: '350px' }}>
           <thead>
-            <tr style={{ backgroundColor: '#d1d5db', borderBottom: '2px solid white' }}>
-              <th style={{ borderRight: '2px solid white' }}>{t.hourPillar}</th>
-              <th style={{ borderRight: '2px solid white' }}>{t.dayPillar}</th>
-              <th style={{ borderRight: '2px solid white' }}>{t.monthPillar}</th>
-              <th>{t.yearPillar}</th>
+            <tr style={{ backgroundColor: 'var(--surface-color)', borderBottom: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>
+              <th style={{ borderRight: '1px solid var(--border-color)', paddingBottom: '8px' }}>{t.hourPillar}</th>
+              <th style={{ borderRight: '1px solid var(--border-color)', paddingBottom: '8px' }}>{t.dayPillar}</th>
+              <th style={{ borderRight: '1px solid var(--border-color)', paddingBottom: '8px' }}>{t.monthPillar}</th>
+              <th style={{ paddingBottom: '8px' }}>{t.yearPillar}</th>
             </tr>
           </thead>
           <tbody>
-            <tr style={{ backgroundColor: '#f3f4f6', fontSize: '0.9rem', borderBottom: '4px solid white' }}>
-              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.hourPillar || t.unknown}<br/>{hourStemGod}</td>
-              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.dayPillar}<br/><span style={{color: '#3b82f6', fontWeight: 'bold'}}>{t.dayMaster}</span></td>
-              <td style={{ padding: '8px 5px', borderRight: '2px solid white' }}>{sajuData.monthPillar}<br/>{monthStemGod}</td>
-              <td style={{ padding: '8px 5px' }}>{sajuData.yearPillar}<br/>{yearStemGod}</td>
+            <tr style={{ backgroundColor: 'var(--bg-color)', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+              <td style={{ padding: '12px 5px', borderRight: '1px solid var(--border-color)' }}>{sajuData.hourPillar || t.unknown}<br/><span style={{color: 'var(--text-primary)'}}>{hourStemGod}</span></td>
+              <td style={{ padding: '12px 5px', borderRight: '1px solid var(--border-color)' }}>{sajuData.dayPillar}<br/><span style={{color: 'var(--text-primary)', fontWeight: '600'}}>{t.dayMaster}</span></td>
+              <td style={{ padding: '12px 5px', borderRight: '1px solid var(--border-color)' }}>{sajuData.monthPillar}<br/><span style={{color: 'var(--text-primary)'}}>{monthStemGod}</span></td>
+              <td style={{ padding: '12px 5px' }}>{sajuData.yearPillar}<br/><span style={{color: 'var(--text-primary)'}}>{yearStemGod}</span></td>
             </tr>
             <tr>
-              <td>{hourStem && <div className={`saju-box ${getElementClass(hourStem)}`}>{hourStem}</div>}</td>
-              <td><div className={`saju-box ${getElementClass(dayStem)}`}>{dayStem}</div></td>
-              <td><div className={`saju-box ${getElementClass(monthStem)}`}>{monthStem}</div></td>
-              <td><div className={`saju-box ${getElementClass(yearStem)}`}>{yearStem}</div></td>
+              <td style={{ paddingTop: '15px' }}>{hourStem && <div className={`saju-box ${getElementClass(hourStem)}`}>{hourStem}</div>}</td>
+              <td style={{ paddingTop: '15px' }}><div className={`saju-box ${getElementClass(dayStem)}`}>{dayStem}</div></td>
+              <td style={{ paddingTop: '15px' }}><div className={`saju-box ${getElementClass(monthStem)}`}>{monthStem}</div></td>
+              <td style={{ paddingTop: '15px' }}><div className={`saju-box ${getElementClass(yearStem)}`}>{yearStem}</div></td>
             </tr>
             <tr>
               <td>{hourBranch && <div className={`saju-box ${getElementClass(hourBranch)}`}>{hourBranch}</div>}</td>
@@ -115,7 +110,7 @@ export default function ManseryeokDisplay({ sajuData, userInfo, selectedDaewunAg
               <td><div className={`saju-box ${getElementClass(monthBranch)}`}>{monthBranch}</div></td>
               <td><div className={`saju-box ${getElementClass(yearBranch)}`}>{yearBranch}</div></td>
             </tr>
-            <tr style={{ fontSize: '0.9rem', color: '#4b5563' }}>
+            <tr style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
               <td style={{ padding: '8px 0 15px' }}>{hourBranchGod}</td>
               <td style={{ padding: '8px 0 15px' }}>{dayBranchGod}</td>
               <td style={{ padding: '8px 0 15px' }}>{monthBranchGod}</td>

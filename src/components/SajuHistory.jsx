@@ -35,8 +35,8 @@ export default function SajuHistory({ onSelect, onBack }) {
   return (
     <div style={{ padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{t.historyTitle}</h2>
-        <button onClick={onBack} style={{ padding: '8px 16px', background: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>{t.back}</button>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: '600', color: 'var(--text-primary)' }}>{t.historyTitle}</h2>
+        <button onClick={onBack} style={{ padding: '8px 16px', background: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '12px', cursor: 'pointer', fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: '500' }}>{t.back}</button>
       </div>
 
       {history.length === 0 ? (
@@ -51,11 +51,11 @@ export default function SajuHistory({ onSelect, onBack }) {
               placeholder={t.searchPlaceholder} 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ flex: 1, padding: '10px', borderRadius: '8px', border: '1px solid #e2e8f0', outline: 'none' }}
+              style={{ flex: 1, padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)', outline: 'none', background: 'var(--surface-color)', color: 'var(--text-primary)', fontSize: '1rem' }}
             />
             <button 
               onClick={() => setSortOrder(prev => prev === 'desc' ? 'asc' : 'desc')}
-              style={{ padding: '0 15px', background: 'white', border: '1px solid #e2e8f0', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold', color: '#475569', minWidth: '100px' }}
+              style={{ padding: '0 16px', background: 'var(--surface-color)', border: '1px solid var(--border-color)', borderRadius: '12px', cursor: 'pointer', fontWeight: '500', color: 'var(--text-primary)', minWidth: '100px', fontSize: '0.9rem' }}
             >
               {sortOrder === 'desc' ? t.sortLatest : t.sortOldest}
             </button>
@@ -67,38 +67,38 @@ export default function SajuHistory({ onSelect, onBack }) {
               key={item.id} 
               onClick={() => onSelect(item)}
               style={{ 
-                padding: '15px', 
-                backgroundColor: 'white', 
-                borderRadius: '12px', 
-                border: '1px solid #e2e8f0', 
+                padding: '16px 20px', 
+                backgroundColor: 'var(--surface-color)', 
+                borderRadius: '20px', 
+                border: '1px solid var(--border-color)', 
                 display: 'flex', 
                 justifyContent: 'space-between', 
                 alignItems: 'center',
                 cursor: 'pointer',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.02)',
                 transition: 'transform 0.1s'
               }}
               onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div>
-                <div style={{ fontWeight: 'bold', fontSize: '1.1rem', color: '#1e293b' }}>
-                  {item.name} <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: '#64748b' }}>({item.gender === 'male' ? (language === 'ko' ? '남' : 'M') : (language === 'ko' ? '여' : 'F')})</span>
+                <div style={{ fontWeight: '600', fontSize: '1.1rem', color: 'var(--text-primary)' }}>
+                  {item.name} <span style={{ fontSize: '0.9rem', fontWeight: 'normal', color: 'var(--text-secondary)' }}>({item.gender === 'male' ? (language === 'ko' ? '남' : 'M') : (language === 'ko' ? '여' : 'F')})</span>
                 </div>
-                <div style={{ fontSize: '0.85rem', color: '#64748b', marginTop: '4px' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginTop: '6px' }}>
                   {item.birthDate.substring(0,4)} {language === 'ko' ? '년' : '/'} {item.birthDate.substring(4,6)} {language === 'ko' ? '월' : '/'} {item.birthDate.substring(6,8)} {language === 'ko' ? '일' : ''} ({item.calendarType === 'solar' ? t.solar : t.lunar})
                 </div>
               </div>
               <button 
                 onClick={(e) => handleDelete(item.id, e)}
                 style={{ 
-                  padding: '6px 12px', 
-                  background: '#fee2e2', 
-                  color: '#ef4444', 
+                  padding: '8px 16px', 
+                  background: '#ffefef', 
+                  color: '#ff3b30', 
                   border: 'none', 
-                  borderRadius: '6px', 
-                  fontSize: '0.8rem',
-                  fontWeight: 'bold',
+                  borderRadius: '12px', 
+                  fontSize: '0.85rem',
+                  fontWeight: '500',
                   cursor: 'pointer'
                 }}
               >
@@ -110,13 +110,14 @@ export default function SajuHistory({ onSelect, onBack }) {
           <button 
             onClick={handleClear}
             style={{ 
-              marginTop: '20px', 
-              padding: '12px', 
+              marginTop: '24px', 
+              padding: '14px', 
               background: 'transparent', 
-              color: '#94a3b8', 
-              border: '1px solid #e2e8f0', 
-              borderRadius: '8px', 
-              fontSize: '0.9rem',
+              color: 'var(--text-secondary)', 
+              border: '1px solid var(--border-color)', 
+              borderRadius: '16px', 
+              fontSize: '0.95rem',
+              fontWeight: '500',
               cursor: 'pointer'
             }}
           >

@@ -42,21 +42,21 @@ export default function SajuInputForm({ onSubmit }) {
 
       <div className="toggle-group" style={{ display: 'flex', gap: '8px', marginBottom: '20px', flexWrap: 'wrap' }}>
         {/* Gender Toggle */}
-        <div style={{ display: 'flex', background: '#e0e7ff', borderRadius: '20px', overflow: 'hidden', flex: 1, minWidth: '90px' }}>
-          <button onClick={() => setGender('male')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'male' ? 'white' : 'transparent', borderRadius: '20px', border: gender==='male'?'1px solid #6366f1':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.male}</button>
-          <button onClick={() => setGender('female')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'female' ? '#6366f1' : 'transparent', borderRadius: '20px', border: gender==='female'?'1px solid #6366f1':'none', color: gender === 'female' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.female}</button>
+        <div style={{ display: 'flex', background: '#e5e5ea', borderRadius: '14px', overflow: 'hidden', padding: '3px', flex: 1, minWidth: '90px' }}>
+          <button onClick={() => setGender('male')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'male' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: gender === 'male' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: gender === 'male' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.male}</button>
+          <button onClick={() => setGender('female')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: gender === 'female' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: gender === 'female' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: gender === 'female' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.female}</button>
         </div>
 
         {/* Calendar Toggle */}
-        <div style={{ display: 'flex', background: '#ccfbf1', borderRadius: '20px', overflow: 'hidden', flex: 1, minWidth: '90px' }}>
-          <button onClick={() => setCalendarType('solar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'solar' ? 'white' : 'transparent', borderRadius: '20px', border: calendarType==='solar'?'1px solid #14b8a6':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.solar}</button>
-          <button onClick={() => setCalendarType('lunar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'lunar' ? '#14b8a6' : 'transparent', borderRadius: '20px', border: calendarType==='lunar'?'1px solid #14b8a6':'none', color: calendarType === 'lunar' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.lunar}</button>
+        <div style={{ display: 'flex', background: '#e5e5ea', borderRadius: '14px', overflow: 'hidden', padding: '3px', flex: 1, minWidth: '90px' }}>
+          <button onClick={() => setCalendarType('solar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'solar' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: calendarType === 'solar' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: calendarType === 'solar' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.solar}</button>
+          <button onClick={() => setCalendarType('lunar')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: calendarType === 'lunar' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: calendarType === 'lunar' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: calendarType === 'lunar' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.lunar}</button>
         </div>
 
         {/* Leap Month Toggle */}
-        <div style={{ display: 'flex', background: '#ffedd5', borderRadius: '20px', overflow: 'hidden', flex: 1, minWidth: '90px' }}>
-          <button onClick={() => setLeapMonth('normal')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'normal' ? 'white' : 'transparent', borderRadius: '20px', border: leapMonth==='normal'?'1px solid #f59e0b':'none', color: '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.normalMonth}</button>
-          <button onClick={() => setLeapMonth('leap')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'leap' ? '#f59e0b' : 'transparent', borderRadius: '20px', border: leapMonth==='leap'?'1px solid #f59e0b':'none', color: leapMonth === 'leap' ? 'white' : '#111827', fontWeight: 'bold', fontSize: '0.9rem' }}>{t.isLeapMonth}</button>
+        <div style={{ display: 'flex', background: '#e5e5ea', borderRadius: '14px', overflow: 'hidden', padding: '3px', flex: 1, minWidth: '90px' }}>
+          <button onClick={() => setLeapMonth('normal')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'normal' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: leapMonth === 'normal' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: leapMonth === 'normal' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.normalMonth}</button>
+          <button onClick={() => setLeapMonth('leap')} style={{ flex: 1, cursor: 'pointer', padding: '8px 12px', background: leapMonth === 'leap' ? 'white' : 'transparent', borderRadius: '12px', border: 'none', boxShadow: leapMonth === 'leap' ? '0 3px 8px rgba(0,0,0,0.12), 0 3px 1px rgba(0,0,0,0.04)' : 'none', color: leapMonth === 'leap' ? '#1d1d1f' : '#8e8e93', fontWeight: '600', fontSize: '0.9rem', transition: 'all 0.2s' }}>{t.isLeapMonth}</button>
         </div>
       </div>
 
@@ -90,8 +90,8 @@ export default function SajuInputForm({ onSubmit }) {
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: '80px' }}>
               <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>{knowTime ? t.directInput : t.zodiacTime}</span>
-              <div onClick={() => { setKnowTime(!knowTime); }} style={{ width: '44px', height: '24px', background: '#3b82f6', borderRadius: '12px', position: 'relative', cursor: 'pointer', transition: '0.2s' }}>
-                <div style={{ position: 'absolute', top: '2px', left: knowTime ? '22px' : '2px', width: '20px', height: '20px', background: 'white', borderRadius: '50%', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transition: '0.2s' }}></div>
+              <div onClick={() => { setKnowTime(!knowTime); }} style={{ width: '50px', height: '30px', background: knowTime ? '#34c759' : '#e5e5ea', borderRadius: '15px', position: 'relative', cursor: 'pointer', transition: '0.2s' }}>
+                <div style={{ position: 'absolute', top: '2px', left: knowTime ? '22px' : '2px', width: '26px', height: '26px', background: 'white', borderRadius: '50%', boxShadow: '0 3px 8px rgba(0,0,0,0.15), 0 3px 1px rgba(0,0,0,0.06)', transition: '0.2s' }}></div>
               </div>
             </div>
           </div>
@@ -100,17 +100,21 @@ export default function SajuInputForm({ onSubmit }) {
         <button 
           onClick={handleSubmit}
           style={{
-            marginTop: '10px',
-            padding: '15px',
-            backgroundColor: '#3b82f6',
+            marginTop: '15px',
+            padding: '16px',
+            backgroundColor: '#1d1d1f',
             color: 'white',
             border: 'none',
-            borderRadius: '12px',
+            borderRadius: '16px',
             fontSize: '1.1rem',
-            fontWeight: 'bold',
+            fontWeight: '600',
             cursor: 'pointer',
-            boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.3)'
-          }}>
+            transition: 'background-color 0.2s',
+            boxShadow: '0 4px 14px 0 rgba(0,0,0,0.1)'
+          }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#000000'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#1d1d1f'}
+        >
           {t.lookup}
         </button>
       </div>

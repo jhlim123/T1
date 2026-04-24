@@ -122,21 +122,24 @@ function App() {
       {view === 'input' && (
         <>
           <div style={{ padding: '15px 20px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <button 
+              <button 
               onClick={() => setView('history')}
               style={{ 
-                padding: '10px 18px', 
-                background: '#f3f4f6', 
-                color: '#4b5563', 
-                border: '1px solid #d1d5db', 
-                borderRadius: '50px', 
+                padding: '8px 16px', 
+                background: '#f5f5f7', 
+                color: '#1d1d1f', 
+                border: 'none', 
+                borderRadius: '16px', 
                 cursor: 'pointer', 
                 fontSize: '0.9rem', 
-                fontWeight: 'bold',
+                fontWeight: '600',
                 display: 'flex',
                 alignItems: 'center',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-              }}>
+                transition: 'background-color 0.2s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e5e5ea'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#f5f5f7'}
+              >
               {t.savedHistory}
             </button>
             
@@ -145,37 +148,40 @@ function App() {
                 onClick={toggleLanguage}
                 style={{
                   padding: '6px 12px',
-                  background: 'white',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '20px',
+                  background: 'transparent',
+                  border: '1px solid #e5e5ea',
+                  borderRadius: '16px',
                   cursor: 'pointer',
-                  fontWeight: 'bold',
+                  fontWeight: '600',
                   fontSize: '0.85rem',
-                  color: '#4b5563'
+                  color: '#1d1d1f',
+                  transition: 'background-color 0.2s'
                 }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f5f5f7'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
               >
-                {language === 'ko' ? '🇺🇸 EN' : '🇰🇷 KO'}
+                {language === 'ko' ? 'EN' : 'KO'}
               </button>
 
               <div 
                 onClick={() => setShowCreatorInfo(true)}
                 title={t.creatorInfo}
                 style={{ 
-                  width: '28px', 
-                  height: '28px', 
-                  border: '1px solid #94a3b8', 
-                  borderRadius: '50%', 
+                  width: '32px', 
+                  height: '32px', 
+                  border: '1px solid #e5e5ea', 
+                  borderRadius: '16px', 
                   display: 'flex', 
                   justifyContent: 'center', 
                   alignItems: 'center', 
-                  fontWeight: 'bold', 
+                  fontWeight: '500', 
                   fontSize: '1rem', 
                   cursor: 'pointer', 
-                  color: '#94a3b8',
+                  color: '#86868b',
                   transition: 'background-color 0.2s',
                   backgroundColor: 'transparent'
                 }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f1f5f9'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f5f5f7'}
                 onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
               >
                 i
